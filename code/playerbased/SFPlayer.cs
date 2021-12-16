@@ -9,6 +9,12 @@ partial class SFPlayer : Player
 		Inventory = new Inventory( this );
 	}
 
+	public void InitialSpawn()
+	{
+		curTeam = SFTeams.Unspecified;
+		Respawn();
+	}
+
 	public override void Respawn()
 	{
 		SetModel( "models/citizen/citizen.vmdl" );
@@ -16,6 +22,8 @@ partial class SFPlayer : Player
 		Controller = new WalkController();
 		Animator = new StandardPlayerAnimator();
 		Camera = new FirstPersonCamera();
+
+		Inventory.DeleteContents();
 
 		EnableAllCollisions = true;
 		EnableDrawing = true;

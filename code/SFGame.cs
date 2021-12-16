@@ -26,6 +26,9 @@ public partial class SFGame : Sandbox.Game
 	[Event.Hotload]
 	public void UpdateHud()
 	{
+		if ( !IsClient )
+			return;
+
 		hud?.Delete();
 		hud = new SFHud();
 	}
@@ -37,6 +40,6 @@ public partial class SFGame : Sandbox.Game
 		var player = new SFPlayer();
 		client.Pawn = player;
 
-		player.Respawn();
+		player.InitialSpawn();
 	}
 }
