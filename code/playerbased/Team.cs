@@ -13,16 +13,34 @@ partial class SFPlayer
 
 	public SFTeams curTeam;
 
-	[Event( "SF_ChangeTeam" )]
-	public void SetTeam(SFTeams newTeam)
+	public void SetTeam(SFPlayer player)
 	{
-		curTeam = newTeam;
+		Log.Info( "Called by " + player.Client.Name );
+		//curTeam = newTeam;
 
-		KillFeed.Current?.AddEntry( 0, $"{Client.Name} has joined the {newTeam} team", 0, "", null);
+		//KillFeed.Current?.AddEntry( 0, $"{Client.Name} has joined the {newTeam} team", 0, "", null);
 
 		using ( Prediction.Off() )
 		{
-			UpdateTeamClient( To.Single( this ), newTeam );
+			//UpdateTeamClient( To.Single( this ), newTeam );
+		}
+	}
+
+	[ServerCmd("SF_SetTeam")]
+	public static void SetTeamServer(SFTeams newTeam )
+	{
+		var user = ConsoleSystem.Caller;
+
+		Log.Info( "Called by " + user.Name );
+		Log.Info( newTeam );
+
+		//curTeam = newTeam;
+
+		//KillFeed.Current?.AddEntry( 0, $"{Client.Name} has joined the {newTeam} team", 0, "", null);
+
+		using ( Prediction.Off() )
+		{
+			//UpdateTeamClient( To.Single( this ), newTeam );
 		}
 	}
 

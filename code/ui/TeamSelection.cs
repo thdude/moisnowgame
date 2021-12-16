@@ -12,27 +12,22 @@ public partial class TeamSelection : Panel
 	public TeamSelection()
 	{
 		StyleSheet.Load( "/ui/teamselection.scss" );
+		
 		Panel redPnl = Add.Panel( "redTeamMenu" );
 		Panel greenPnl = Add.Panel( "greenTeamMenu" );
 
 		greenBtn = greenPnl.Add.Label( "Join Green Team", "greenBtn" );
 		greenBtn.AddEventListener( "onclick", () =>
 		{
-			var client = Local.Pawn;
+			ConsoleSystem.Run( "SF_SetTeam", SFPlayer.SFTeams.Green );
 
-			if ( client is SFPlayer player )
-				player.SetTeam( SFPlayer.SFTeams.Green );
-		
 			isOpen = false;
 		} );
 
 		redBtn = redPnl.Add.Label( "Join Red Team", "redBtn" );
 		redBtn.AddEventListener( "onclick", () =>
 		{
-			var client = Local.Pawn;
-
-			if ( client is SFPlayer player )
-				player.SetTeam( SFPlayer.SFTeams.Red );
+			ConsoleSystem.Run( "SF_SetTeam", SFPlayer.SFTeams.Red );
 
 			isOpen = false;
 		} );
