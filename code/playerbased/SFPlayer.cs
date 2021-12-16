@@ -2,7 +2,7 @@
 using System;
 using System.Linq;
 
-partial class SFPlayer : Player
+public partial class SFPlayer : Player
 {
 	public SFPlayer()
 	{

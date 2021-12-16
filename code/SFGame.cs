@@ -1,5 +1,6 @@
 ﻿
 using Sandbox;
+using Sandbox.UI;
 using Sandbox.UI.Construct;
 using System;
 using System.IO;
@@ -14,7 +15,6 @@ public partial class SFGame : Sandbox.Game
 	{
 		if ( IsServer )
 		{
-			
 		}
 
 		if ( IsClient )

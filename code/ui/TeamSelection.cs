@@ -7,12 +7,36 @@ public partial class TeamSelection : Panel
 {
 	private bool isOpen = false;
 	private TimeSince lastOpenTime;
-
+	private Label greenBtn;
+	private Label redBtn;
 	public TeamSelection()
 	{
 		StyleSheet.Load( "/ui/teamselection.scss" );
 		Panel redPnl = Add.Panel( "redTeamMenu" );
 		Panel greenPnl = Add.Panel( "greenTeamMenu" );
+
+		greenBtn = greenPnl.Add.Label( "Join Green Team", "greenBtn" );
+		greenBtn.AddEventListener( "onclick", () =>
+		{
+			var client = Local.Pawn;
+
+			if ( client is SFPlayer player )
+				player.SetTeam( SFPlayer.SFTeams.Green );
+		
+			isOpen = false;
+		} );
+
+		redBtn = redPnl.Add.Label( "Join Red Team", "redBtn" );
+		redBtn.AddEventListener( "onclick", () =>
+		{
+			var client = Local.Pawn;
+
+			if ( client is SFPlayer player )
+				player.SetTeam( SFPlayer.SFTeams.Red );
+
+			isOpen = false;
+		} );
+
 	}
 
 	public override void Tick()
@@ -24,6 +48,7 @@ public partial class TeamSelection : Panel
 			isOpen = !isOpen;
 			lastOpenTime = 0.0f;
 		}
+
 
 		SetClass( "open", isOpen );
 	}
