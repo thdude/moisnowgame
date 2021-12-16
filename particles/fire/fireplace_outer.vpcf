@@ -560,7 +560,6 @@
 				}
 			}
 			m_nColorBlendType = "PARTICLE_COLOR_BLEND_REPLACE"
-			m_hTexture = resource:"materials/particle/fire_burning_character/fire_burning_character.vtex"
 		},
 	]
 }
