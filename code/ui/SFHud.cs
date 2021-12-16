@@ -4,9 +4,7 @@ public partial class SFHud : Sandbox.HudEntity<RootPanel>
 {
 	public SFHud()
 	{
-		if ( IsClient )
-		{
-
-		}
+		RootPanel.AddChild<ChatBox>();
+		RootPanel.AddChild<TeamSelection>();
 	}
 }
