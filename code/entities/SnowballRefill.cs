@@ -20,7 +20,7 @@ partial class SnowballRefill : Prop, IUse
 	public override void Spawn()
 	{
 		base.Spawn();
-		SetModel( "models/citizen_props/crate01.vmdl_c" );
+		SetModel("models/snowpile.vmdl");
 
 		GlowState = GlowStates.On;
 		GlowDistanceStart = 0;
