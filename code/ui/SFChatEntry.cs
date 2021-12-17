@@ -21,6 +21,13 @@ public partial class SFChatEntry : Panel
 	{
 		base.Tick();
 
+		var client = Local.Pawn;
+
+		if( client is SFPlayer player )
+		{
+			NameLabel.SetClass(player.curTeam.ToString(), true);
+		}
+
 		if ( TimeSinceBorn > 10 ) 
 		{ 
 			Delete();

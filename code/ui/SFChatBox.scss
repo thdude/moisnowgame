@@ -76,8 +76,16 @@ sfchatentry {
 		padding-right: 20px;
 		font-weight: 600;
 		font-size: 14px;
-		color: rgba(0, 252, 255, 1);
+		color: rgba(255, 255, 255, 1);
 		flex-shrink: 0;
+
+		&.Green {
+			color: rgba(40, 255, 70, 1);
+		}
+
+		&.Red {
+			color: rgba(255, 40, 40, 1);
+		}
 	}
 
 	.message {

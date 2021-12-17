@@ -12,11 +12,13 @@ partial class PresentCounter : Panel
 	{
 		lastPickup = 1;
 		StyleSheet.Load("/ui/PresentCounter.scss");
-		presentCount = Add.Label( "x0", "presentText" );
+		presentCount = Add.Label( "", "presentText" );
 	}
 
 	public override void Tick()
 	{
+		base.Tick();
+
 		var user = Local.Pawn;
 		if ( user == null ) return;
 
