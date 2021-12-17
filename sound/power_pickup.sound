@@ -6,7 +6,7 @@
 		[
 			"sound/powerup.vsnd",
 		]
-		ui = true
+		ui = false
 		volume = 1.0
 		volumerandom = 0.0
 		pitch = 1.0
