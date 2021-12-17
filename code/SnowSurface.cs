@@ -26,8 +26,6 @@ public static class SnowSurface
 			surf = surf.GetBaseSurface();
 		}
 
-		Log.Info( decalPath );
-
 		if ( !string.IsNullOrWhiteSpace( decalPath ) )
 		{
 			if ( DecalDefinition.ByPath.TryGetValue( decalPath, out var decal ) )
