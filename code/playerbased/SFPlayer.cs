@@ -99,12 +99,6 @@ public partial class SFPlayer : Player
 	{
 		if ( LifeState == LifeState.Dead )
 		{
-			if(SFGame.gameStatus == SFGame.enumStatus.Idle && timeKilled > 2 && IsServer ) 
-			{
-				Respawn();
-				return;
-			}
-
 			if ( timeKilled > 8 && IsServer )
 			{
 				Respawn();
@@ -134,15 +128,5 @@ public partial class SFPlayer : Player
 		BecomeRagdollOnClient( Velocity, dmgInfo.Flags, dmgInfo.Position, dmgInfo.Force, GetHitboxBone( dmgInfo.HitboxIndex ) );
 		Camera = new DeathCamera();
 		EnableDrawing = false;
-
-		for ( int i = 0; i < curPresents; i++ )
-		{
-			var presentDrop = new Present();
-
-			presentDrop.Position = Position;
-			presentDrop.Velocity = Position + (Vector3.Random * 15);
-			presentDrop.Spawn();
-		}
-
 	}
 }

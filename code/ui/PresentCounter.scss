@@ -12,11 +12,11 @@
     .presentText {
         right: 50px;
         top: 50px;
+        text-shadow: 5px 5px 50px rgba( black, 0.8 );
         color: white;
         font-family: Poppins;
         font-size: 50px;
         font-weight: 900;
-        text-shadow: 0px 5px black;
     }
 
     &.pickup {

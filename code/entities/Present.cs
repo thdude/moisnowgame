@@ -11,10 +11,9 @@ partial class Present : Prop
 
 		trigger = new BaseTrigger();
 
-		SetModel( "models/christmas/gift.vmdl_c" );
-		SetupPhysicsFromModel( PhysicsMotionType.Dynamic, false );
+		SetModel( "models/citizen_props/crate01.vmdl_c" );
 
-		RenderColor = Color.Random;
+		RenderColor = Color.Red;
 
 		GlowState = GlowStates.On;
 		GlowDistanceStart = 0;
@@ -29,7 +28,7 @@ partial class Present : Prop
 
 		if( other is SFPlayer player)
 		{
-			if ( player.curPresents >= 5 || player.LifeState == LifeState.Dead )
+			if ( player.curPresents >= 5 )
 				return;
 
 			player.GivePresents( 1 );

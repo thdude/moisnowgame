@@ -14,7 +14,7 @@ public partial class SFGame
 		Post
 	}
 
-	public static enumStatus gameStatus = enumStatus.Idle;
+	public enumStatus gameStatus = enumStatus.Idle;
 	public static bool CanStartGame()
 	{
 		if ( SFPlayer.GetRedMembers().Count >= 1 && SFPlayer.GetGreenMembers().Count >= 1 )
@@ -67,16 +67,19 @@ public partial class SFGame
 
 		gameStatus = enumStatus.Start;
 
-		timeToBegin = 0;
-
-		foreach ( var client in Client.All )
+		foreach ( var pawn in Client.All )
 		{
-			if( client.Pawn is SFPlayer player)
+			if( pawn is SFPlayer player)
 			{
-				player.Respawn();
-				player.lockControls = true;
-				Log.Info( "Locking " + player.Client.Name + " controls" );
+
+			} else
+			{
+				Log.Info( "NOT A PLAYER" );
 			}
+
+			//pawn.Respawn();
+			//player.lockControls = true;
+			//Log.Info( "Locking " + player.Client.Name + " controls" );
 		}
 
 		using ( Prediction.Off() )
@@ -87,13 +90,10 @@ public partial class SFGame
 	[Event.Tick.Server]
 	public void Tick()
 	{
-		if ( timeToBegin > 7 && gameStatus == enumStatus.Start )
+		if ( timeToBegin < 10 && gameStatus == enumStatus.Start )
 		{
-			foreach ( var client in Client.All )
-			{
-				if ( client.Pawn is SFPlayer player )
-					player.lockControls = false;
-			}
+			foreach ( var player in Client.All.OfType<SFPlayer>() )
+				player.lockControls = false;
 
 			gameStatus = enumStatus.Active;
 		}
