@@ -1,17 +1,20 @@
 ﻿vitals {
     position: absolute;
-    height: 110px;
-    width: 110px;
-    left: 50px;
-    bottom: 50px;
-    background-image: url(materials/ui/health_bg.png);
+    width: 230px;
+    height: 250px;
+    bottom: 0%;
     background-repeat: no-repeat;
-    transform: scale( 1.5 );
+    background-image: url(materials/ui/health_bg.png);
+    
+}
 
-    .healthFill {
-        background-image: url(materials/ui/health_icon.png);
-        background-repeat: no-repeat;
-        height: 100%;
-        width: 110px;
-    }
+.healthFill {
+    position: absolute;
+    width: 230px;
+    height: 250px;
+    left: 27px;
+    bottom: 5px;
+    background-repeat: no-repeat;
+    background-image: url(materials/ui/health_icon.png);
+    transform: rotate(180);
 }

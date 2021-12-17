@@ -24,6 +24,8 @@ partial class AmmoCounter : Panel
 		
 		if ( weapon == null ) return;
 
+		SetClass( "death", player.Health <= 0 );
+
 		ammoCount.Text = $"x{weapon.AmmoClip}";
 	}
 }

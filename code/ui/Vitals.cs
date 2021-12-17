@@ -5,14 +5,15 @@ using Sandbox.UI.Construct;
 public partial class Vitals : Panel
 {
 	private Panel healthBar;
-	private Panel healthIcon;
+	private Panel healthEmptyIcon;
+	private Panel healthFillIcon;
 
 	public Vitals()
 	{
 		StyleSheet.Load( "UI/Vitals.scss" );
 
-		healthBar = Add.Panel( "healthFill" );
-
+		healthBar = Add.Panel( "healthEmpty" );
+		healthFillIcon = Add.Panel( "healthFill" );
 	}
 
 	public override void Tick()
@@ -21,8 +22,8 @@ public partial class Vitals : Panel
 		if ( pawn == null )
 			return;
 
-		healthBar.Style.Dirty();
-		healthBar.Style.Height = Length.Percent( pawn.Health );
+		healthFillIcon.Style.Dirty();
+		healthFillIcon.Style.Height = Length.Percent( pawn.Health );
 
 		base.Tick();
 	}

@@ -10,14 +10,15 @@ public partial class SFPlayer : Player
 		Inventory = new Inventory( this );
 	}
 
-	private DamageInfo dmgInfo;
+	private TimeSince timeKilled;
+
+	public DamageInfo dmgInfo;
 
 	public TimeSince lastPickup;
 
 	//First time spawn (can be after joining or restarting)
 	public void InitialSpawn()
 	{
-		lastPickup = 0.1f;
 		timeSinceSwitchTeam = 30.0f;
 		curTeam = SFTeams.Unspecified;
 		Respawn();
@@ -96,6 +97,16 @@ public partial class SFPlayer : Player
 
 	public override void Simulate( Client cl )
 	{
+		if ( LifeState == LifeState.Dead )
+		{
+			if ( timeKilled > 8 && IsServer )
+			{
+				Respawn();
+			}
+
+			return;
+		}
+
 		base.Simulate( cl );
 		SimulateActiveChild( cl, ActiveChild );
 
@@ -109,6 +120,7 @@ public partial class SFPlayer : Player
 
 	public override void OnKilled()
 	{
+		timeKilled = 0;
 		base.OnKilled();
 		BecomeRagdollOnClient( Velocity, dmgInfo.Flags, dmgInfo.Position, dmgInfo.Force, GetHitboxBone( dmgInfo.HitboxIndex ) );
 		Camera = new DeathCamera();

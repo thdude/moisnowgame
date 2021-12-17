@@ -7,6 +7,7 @@
     background-repeat: no-repeat;
     background-image: url(materials/ui/present_icon.png);
     transform: scale( 1 );
+    transition: all 0.1s ease-out;
 
     .presentText {
         right: 50px;
@@ -19,7 +20,12 @@
     }
 
     &.pickup {
-        transition: all 0.5s ease-out;
-        transform: scale(1.25);
+        transform: scale(1.20);
+        transition: all 0.05s ease-in;
+    }
+
+    &.death {
+        transition: all 0.1s ease-in;
+        transform: rotateX(90);
     }
 }

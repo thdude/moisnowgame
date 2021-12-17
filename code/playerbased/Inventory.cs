@@ -17,20 +17,6 @@ partial class Inventory : BaseInventory
 		// We don't want to pick up the same weapon twice
 		// But we'll take the ammo from it Winky Face
 		//
-		if ( weapon != null && IsCarryingType( ent.GetType() ) )
-		{
-			var ammo = weapon.AmmoClip;
-			var ammoType = weapon.AmmoType;
-
-			if ( ammo > 0 )
-			{
-				player.GiveAmmo( ammoType, ammo );
-				
-			}
-
-			ent.Delete();
-			return false;
-		}
 		
 		return base.Add( ent, makeActive );
 	}

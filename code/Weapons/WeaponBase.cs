@@ -10,7 +10,6 @@ using System.Threading.Tasks;
 partial class WeaponBase : BaseWeapon
 {
 	public virtual string WorldModelPath => "";
-	public virtual AmmoType AmmoType => AmmoType.SF_SnowAmmo;
 	public virtual int ClipSize { get; set; } = 0;
 	public virtual float ReloadTime => 3.0f;
 	public virtual int Bucket => 0;
@@ -29,14 +28,6 @@ partial class WeaponBase : BaseWeapon
 
 	[Net, Predicted]
 	public TimeSince TimeSinceDeployed { get; set; }
-	
-	public int AvailableAmmo()
-	{
-		var owner = Owner as SFPlayer;
-		if ( owner == null ) return 0;
-		return owner.AmmoCount( AmmoType );
-	}
-
 	public override bool CanCarry( Entity carrier )
 	{
 		return base.CanCarry( carrier );
@@ -48,37 +39,12 @@ partial class WeaponBase : BaseWeapon
 
 		PlaySound( pickupSound );
 	}
-	
+
 	public override void ActiveStart( Entity ent )
 	{
 		base.ActiveStart( ent );
-		
+
 		TimeSinceDeployed = 0;
-	}
-
-	public override void Reload()
-	{
-		if ( IsReloading )
-			return;
-
-		if ( AmmoClip >= ClipSize )
-			return;
-
-		TimeSinceReload = 0;
-
-		if ( Owner is SFPlayer player )
-		{
-			if ( player.AmmoCount( AmmoType ) <= 0 )
-				return;
-
-			StartReloadEffects();
-		}
-
-		IsReloading = true;
-
-		(Owner as AnimEntity).SetAnimBool( "b_reload", true );
-
-		StartReloadEffects();
 	}
 
 	public override void Simulate( Client owner )
@@ -89,25 +55,6 @@ partial class WeaponBase : BaseWeapon
 		if ( !IsReloading )
 		{
 			base.Simulate( owner );
-		}
-
-		if ( IsReloading && TimeSinceReload > ReloadTime )
-		{
-			OnReloadFinish();
-		}
-	}
-
-	public virtual void OnReloadFinish()
-	{
-		IsReloading = false;
-
-		if ( Owner is SFPlayer player )
-		{
-			var ammo = player.TakeAmmo( AmmoType, ClipSize - AmmoClip );
-			if ( ammo == 0 )
-				return;
-
-			AmmoClip += ammo;
 		}
 	}
 
@@ -216,12 +163,6 @@ partial class WeaponBase : BaseWeapon
 	public override void CreateHudElements()
 	{
 		if ( Local.Hud == null ) return;
-	}
-
-	public bool IsUsable()
-	{
-		if ( AmmoClip > 0 ) return true;
-		return AvailableAmmo() > 0;
 	}
 
 	public virtual void OnHolster()

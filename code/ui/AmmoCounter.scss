@@ -16,4 +16,9 @@
         font-size: 50px;
         font-weight: 900;
     }
+
+    &.death {
+        transition: all 0.1s ease-in;
+        transform: rotateX(90);
+    }
 }
