@@ -3,7 +3,7 @@
 [Library( "weapon_sf_snowball", Title = "Snow DM: Snowball" )]
 partial class Snowball : WeaponBase
 {
-	public override string WorldModelPath => "models/christmas/snowball.vmdl";
+	public override string WorldModelPath => "models/snowball.vmdl";
 	public override string ViewModelPath => "weapons/rust_pistol/v_rust_pistol.vmdl";
 	public override float PrimaryRate => 1.05f;
 	public override AmmoType AmmoType => AmmoType.SF_SnowAmmo;

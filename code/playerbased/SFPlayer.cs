@@ -10,9 +10,14 @@ public partial class SFPlayer : Player
 		Inventory = new Inventory( this );
 	}
 
+	private DamageInfo dmgInfo;
+
+	public TimeSince lastPickup;
+
 	//First time spawn (can be after joining or restarting)
 	public void InitialSpawn()
 	{
+		lastPickup = 0.1f;
 		timeSinceSwitchTeam = 30.0f;
 		curTeam = SFTeams.Unspecified;
 		Respawn();
@@ -69,6 +74,8 @@ public partial class SFPlayer : Player
 
 	public override void Respawn()
 	{
+		lastPickup = 0;
+		SetPresent( 0 );
 		Inventory.DeleteContents();
 
 		SetModel( "models/citizen/citizen.vmdl" );
@@ -103,7 +110,8 @@ public partial class SFPlayer : Player
 	public override void OnKilled()
 	{
 		base.OnKilled();
-
+		BecomeRagdollOnClient( Velocity, dmgInfo.Flags, dmgInfo.Position, dmgInfo.Force, GetHitboxBone( dmgInfo.HitboxIndex ) );
+		Camera = new DeathCamera();
 		EnableDrawing = false;
 	}
 }

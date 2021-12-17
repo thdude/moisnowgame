@@ -7,6 +7,7 @@ public partial class SFHud : Sandbox.HudEntity<RootPanel>
 		RootPanel.AddChild<ChatBox>();
 		RootPanel.AddChild<TeamSelection>();
 		RootPanel.AddChild<AmmoCounter>();
+		RootPanel.AddChild<PresentCounter>();
 		RootPanel.AddChild<KillFeed>();
 	}
 }

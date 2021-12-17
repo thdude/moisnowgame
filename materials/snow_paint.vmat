@@ -24,7 +24,7 @@ Layer0
 	g_flTintColorA "[1.000000 1.000000 1.000000 0.000000]"
 	TextureAmbientOcclusionA "materials/default/default_ao.tga"
 	TextureBlendMaskA "materials/default/default_blend.tga"
-	TextureColorA "cc0_textures/wood027_2k_color.jpg"
+	TextureColorA "materials/Wood027_2K_Color.jpg"
 	TextureMetalnessA "materials/default/default_metal.tga"
 	TextureNormalA "materials/default/default_normal.tga"
 	TextureRoughnessA "materials/default/default_rough.tga"

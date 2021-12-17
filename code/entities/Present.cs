@@ -24,17 +24,19 @@ partial class Present : Prop
 
 	public override void StartTouch( Entity other )
 	{
-		Log.Info( other );
-
 		base.StartTouch( other );
 
 		if( other is SFPlayer player)
 		{
+			if ( player.curPresents >= 5 )
+				return;
+
 			player.GivePresents( 1 );
-			Delete();
 
 			using ( Prediction.Off() )
 				Sound.FromEntity( "present_pickup", this );
+
+			Delete();
 		}
 	}
 

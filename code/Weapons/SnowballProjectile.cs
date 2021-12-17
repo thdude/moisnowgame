@@ -9,7 +9,7 @@ partial class SnowballProjctile : Prop
 	{
 		base.Spawn();
 
-		SetModel( "models/christmas/snowball.vmdl");
+		SetModel( "models/snowball.vmdl" );
 	}
 
 
