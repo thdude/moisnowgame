@@ -6,7 +6,7 @@ partial class Snowball : WeaponBase
 	public override string WorldModelPath => "models/christmas/snowball.vmdl";
 	public override string ViewModelPath => "";
 	public override float PrimaryRate => 1.05f;
-	public override AmmoType AmmoType => AmmoType.SDM_SnowAmmo;
+	public override AmmoType AmmoType => AmmoType.SF_SnowAmmo;
 
 	public override void Spawn()
 	{
@@ -14,7 +14,7 @@ partial class Snowball : WeaponBase
 
 		SetModel( WorldModelPath );
 
-		AmmoClip = 1;
+		AmmoClip = 5;
 	}
 
 	public override void OnCarryStart( Entity carrier )
@@ -26,7 +26,6 @@ partial class Snowball : WeaponBase
 	public override void ActiveStart( Entity ent )
 	{
 		base.ActiveStart( ent );
-		//ViewModelEntity?.SetAnimBool( "idle", false );
 	}
 
 	public override void Simulate( Client owner )
@@ -38,16 +37,16 @@ partial class Snowball : WeaponBase
 	{
 		TimeSincePrimaryAttack = 0;
 
-		if ( (Owner as SFPlayer).AmmoCount( AmmoType.SDM_SnowAmmo ) <= 0 )
+		if ( AmmoClip <= 0 )
 			return;
 
+		AmmoClip -= 1;
 
-		(Owner as AnimEntity).SetAnimBool( "b_attack", true );
+		( Owner as AnimEntity).SetAnimBool( "b_attack", true );
 
 		Fire();
 		ThrowBall();
 
-		//(Owner as ExperimentPlayer).TakeAmmo(AmmoType.SDM_Snowballs, 1);
 	}
 
 	[ClientRpc]

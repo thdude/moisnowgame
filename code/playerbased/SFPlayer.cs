@@ -12,19 +12,24 @@ public partial class SFPlayer : Player
 	//First time spawn (can be after joining or restarting)
 	public void InitialSpawn()
 	{
+		timeSinceSwitchTeam = 0.0f;
 		curTeam = SFTeams.Unspecified;
 		Respawn();
 	}
 
 	public override void Respawn()
 	{
+		Inventory.DeleteContents();
+
+		if ( curTeam != SFTeams.Unspecified )
+			Inventory.Add( new Snowball(), true );
+
+
 		SetModel( "models/citizen/citizen.vmdl" );
 
 		Controller = new WalkController();
 		Animator = new StandardPlayerAnimator();
 		Camera = new FirstPersonCamera();
-
-		Inventory.DeleteContents();
 
 		EnableAllCollisions = true;
 		EnableDrawing = true;
@@ -38,6 +43,8 @@ public partial class SFPlayer : Player
 	{
 		base.Simulate( cl );
 		SimulateActiveChild( cl, ActiveChild );
+
+		TickPlayerUse();
 	}
 
 	public override void StartTouch( Entity other )

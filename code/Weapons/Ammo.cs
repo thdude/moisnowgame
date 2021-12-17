@@ -6,7 +6,7 @@ using System.Linq;
 partial class SFPlayer
 {
 	[Net]
-	public List<int> Ammo { get; set; } = new (); // todo - networkable dictionaries
+	public List<int> Ammo { get; set; } = new ();
 
 	public void ClearAmmo()
 	{
@@ -60,7 +60,7 @@ partial class SFPlayer
 
 public enum AmmoType
 {
-	SDM_SnowAmmo,
-	SDM_ShotgunAmmo,
+	SF_SnowAmmo,
+	SF_ShotgunAmmo,
 }
 

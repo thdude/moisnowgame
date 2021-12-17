@@ -39,9 +39,9 @@ partial class SnowballProjctile : Prop
 
 			//Head
 			if(hitBone == 5)
-				player.Health -= 50f;
+				player.Health -= 1f;
 			else
-				player.Health -= 25f;
+				//player.Health -= 25f;
 
 			if ( player.Health <= 0 )
 			{
@@ -53,7 +53,10 @@ partial class SnowballProjctile : Prop
 		}
 
 		if ( tr.Hit )
+		{
+			tr.Surface.DoSnowImpact( tr );
 			Delete();
+		}
 		else
 			Position = end;
 	}

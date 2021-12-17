@@ -6,7 +6,7 @@ partial class SnowballShotgun : Snowball
 	public override string WorldModelPath => "models/christmas/snowball.vmdl";
 	public override string ViewModelPath => "";
 	public override float PrimaryRate => 1.35f;
-	public override AmmoType AmmoType => AmmoType.SDM_ShotgunAmmo;
+	public override AmmoType AmmoType => AmmoType.SF_ShotgunAmmo;
 
 	public override void Spawn()
 	{
@@ -22,7 +22,7 @@ partial class SnowballShotgun : Snowball
 		TimeSincePrimaryAttack = 0;
 		TimeSinceSecondaryAttack = 0;
 
-		if ( (Owner as SFPlayer).AmmoCount( AmmoType.SDM_ShotgunAmmo ) <= 0 )
+		if ( (Owner as SFPlayer).AmmoCount( AmmoType.SF_ShotgunAmmo ) <= 0 )
 		{
 			DryFire();
 			return;

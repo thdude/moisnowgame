@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 partial class WeaponBase : BaseWeapon
 {
 	public virtual string WorldModelPath => "";
-	public virtual AmmoType AmmoType => AmmoType.SDM_SnowAmmo;
+	public virtual AmmoType AmmoType => AmmoType.SF_SnowAmmo;
 	public virtual int ClipSize { get; set; } = 0;
 	public virtual float ReloadTime => 3.0f;
 	public virtual int Bucket => 0;

@@ -15,6 +15,8 @@ partial class SFPlayer
 
 	public SFTeams curTeam;
 
+	private static TimeSince timeSinceSwitchTeam;
+
 	//Sets team serverside
 	public void SetTeam(SFPlayer player, SFTeams newTeam )
 	{
@@ -30,6 +32,10 @@ partial class SFPlayer
 		{
 			UpdateTeamClient( To.Single( this ), newTeam );
 		}
+
+		timeSinceSwitchTeam = 0.0f;
+		OnKilled();
+
 	}
 
 	//Client to Server command, just so we can grab the team selection menu result
@@ -38,6 +44,10 @@ partial class SFPlayer
 	public static void SetTeamClientToServer( SFTeams newTeam )
 	{
 		var user = ConsoleSystem.Caller;
+
+		//If a minute hasn't passed since last team swap, stop here
+		if ( timeSinceSwitchTeam < 30.0f )
+			return;
 
 		if ( user.Pawn is SFPlayer player )
 		{
