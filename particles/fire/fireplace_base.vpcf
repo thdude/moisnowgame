@@ -1221,6 +1221,8 @@
 				}
 			}
 			m_nColorBlendType = "PARTICLE_COLOR_BLEND_REPLACE"
+			m_bCannotBeRefracted = false
+			m_bCastShadows = true
 		},
 	]
 	m_Children = 
