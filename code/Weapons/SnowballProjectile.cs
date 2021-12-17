@@ -35,11 +35,20 @@ partial class SnowballProjctile : Prop
 
 		if ( tr.Entity is SFPlayer player )
 		{
+			if(Owner is SFPlayer plOwner)
+			{
+				if ( player.curTeam == plOwner.curTeam )
+				{
+					Log.Info( "Team damage" );
+					return;
+				}
+			}
+
 			int hitBone = player.GetHitboxBone( tr.HitboxIndex );
 
 			//Head
 			if(hitBone == 5)
-				player.Health -= 1f;
+				player.Health -= 50f;
 			else
 				//player.Health -= 25f;
 

@@ -12,7 +12,7 @@ public partial class SFPlayer : Player
 	//First time spawn (can be after joining or restarting)
 	public void InitialSpawn()
 	{
-		timeSinceSwitchTeam = 0.0f;
+		timeSinceSwitchTeam = 30.0f;
 		curTeam = SFTeams.Unspecified;
 		Respawn();
 	}
