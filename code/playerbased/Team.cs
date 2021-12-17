@@ -1,6 +1,7 @@
 ﻿using Sandbox;
 using Sandbox.UI;
 using Sandbox.UI.Construct;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -15,22 +16,41 @@ partial class SFPlayer
 
 	public SFTeams curTeam;
 
-	private static TimeSince timeSinceSwitchTeam;
+	private TimeSince timeSinceSwitchTeam;
 
 	//Sets team serverside
 	public void SetTeam(SFPlayer player, SFTeams newTeam )
 	{
+		//If already assigned to the team, stop here
+		if ( player.curTeam == newTeam )
+		{
+			using ( Prediction.Off() )
+				ChatBox.AddInformation( To.Single( this ), $"You are already on the {newTeam} team" );
+
+			return;
+		}
+
 		//Checks if the player can join that team, if not stop here
 		if ( (newTeam == SFTeams.Red && GetRedMembers().Count <= GetGreenMembers().Count)
-				|| (newTeam == SFTeams.Green && GetGreenMembers().Count <= GetRedMembers().Count) )	
+			|| (newTeam == SFTeams.Green && GetGreenMembers().Count <= GetRedMembers().Count) )
 			curTeam = newTeam;
 		else
 			return;
+
+		//If a minute hasn't passed since last team swap, stop here
+		if ( timeSinceSwitchTeam < 30.0f )
+		{
+			using ( Prediction.Off() )
+				ChatBox.AddInformation( To.Single(this), $"Wait {MathF.Round(30.0f - timeSinceSwitchTeam, 1)}s before switching" );
+			
+			return;
+		}
 		
 		//Turn prediction off so that we can update the team on the client
 		using ( Prediction.Off() )
 		{
 			UpdateTeamClient( To.Single( this ), newTeam );
+			ChatBox.AddInformation( To.Everyone, $"{player.Client.Name} has joined the {newTeam} team", $"avatar:{player.Client.PlayerId}" );
 		}
 
 		timeSinceSwitchTeam = 0.0f;
@@ -45,20 +65,8 @@ partial class SFPlayer
 	{
 		var user = ConsoleSystem.Caller;
 
-		//If a minute hasn't passed since last team swap, stop here
-		if ( timeSinceSwitchTeam < 30.0f )
-			return;
-
 		if ( user.Pawn is SFPlayer player )
-		{
-			//If already assigned to the team, stop here
-			if ( player.curTeam == newTeam )
-				return;
-
 			player.SetTeam( player, newTeam );
-		}
-
-		ChatBox.AddInformation( To.Everyone, $"{user.Name} has joined the {newTeam} team", $"avatar:{user.PlayerId}" );
 	}
 
 	//Gets each member for this team

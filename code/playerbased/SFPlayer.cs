@@ -24,7 +24,6 @@ public partial class SFPlayer : Player
 		if ( curTeam != SFTeams.Unspecified )
 			Inventory.Add( new Snowball(), true );
 
-
 		SetModel( "models/citizen/citizen.vmdl" );
 
 		Controller = new WalkController();

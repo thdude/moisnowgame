@@ -46,7 +46,7 @@ partial class SnowballRefill : Prop, IUse
 				if ( weapon.ToString().Contains("Snowball") && weapon.AmmoClip < 5 )
 				{
 					weapon.AmmoClip = 5;
-					Sound.FromScreen( "power_pickup" );
+					Sound.FromEntity( "power_pickup", this);
 					return true;
 				}
 				else

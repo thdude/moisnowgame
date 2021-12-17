@@ -39,7 +39,7 @@ partial class SnowballProjctile : Prop
 			{
 				if ( player.curTeam == plOwner.curTeam )
 				{
-					Log.Info( "Team damage" );
+					Delete();
 					return;
 				}
 			}
@@ -50,7 +50,7 @@ partial class SnowballProjctile : Prop
 			if(hitBone == 5)
 				player.Health -= 50f;
 			else
-				//player.Health -= 25f;
+				player.Health -= 25f;
 
 			if ( player.Health <= 0 )
 			{

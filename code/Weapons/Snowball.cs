@@ -4,7 +4,7 @@
 partial class Snowball : WeaponBase
 {
 	public override string WorldModelPath => "models/christmas/snowball.vmdl";
-	public override string ViewModelPath => "";
+	public override string ViewModelPath => "weapons/rust_pistol/v_rust_pistol.vmdl";
 	public override float PrimaryRate => 1.05f;
 	public override AmmoType AmmoType => AmmoType.SF_SnowAmmo;
 
@@ -36,6 +36,9 @@ partial class Snowball : WeaponBase
 	public override void AttackPrimary()
 	{
 		TimeSincePrimaryAttack = 0;
+
+		if ( Owner.LifeState == LifeState.Dead )
+			return;
 
 		if ( AmmoClip <= 0 )
 			return;
