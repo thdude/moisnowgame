@@ -9,5 +9,6 @@ public partial class SFHud : Sandbox.HudEntity<RootPanel>
 		RootPanel.AddChild<AmmoCounter>();
 		RootPanel.AddChild<PresentCounter>();
 		RootPanel.AddChild<KillFeed>();
+		RootPanel.AddChild<Vitals>();
 	}
 }
