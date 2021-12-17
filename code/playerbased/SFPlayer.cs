@@ -1,5 +1,6 @@
 ﻿using Sandbox;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 public partial class SFPlayer : Player
@@ -17,12 +18,58 @@ public partial class SFPlayer : Player
 		Respawn();
 	}
 
+	public void SetPositionSpawn()
+	{
+		if ( curTeam != SFTeams.Unspecified )
+		{
+			Inventory.Add( new Snowball(), true );
+
+			if ( curTeam == SFTeams.Green )
+			{
+				List<GreenSpawnpoint> spawnpoints = new List<GreenSpawnpoint>();
+
+				foreach ( var greenPoint in All.OfType<GreenSpawnpoint>() )
+					spawnpoints.Add( greenPoint );
+
+				int checkedIndex = 0;
+				int randomIndex = Rand.Int( checkedIndex, spawnpoints.Count - 1 );
+
+				while ( spawnpoints[randomIndex].Position.IsNaN && checkedIndex < spawnpoints.Count )
+				{
+					Log.Info( checkedIndex );
+					checkedIndex += 1;
+					randomIndex = Rand.Int( checkedIndex, spawnpoints.Count - 1 );
+				}
+
+				Position = spawnpoints[randomIndex].Position;
+
+			}
+			else if ( curTeam == SFTeams.Red )
+			{
+
+				List<RedSpawnpoint> spawnpoints = new List<RedSpawnpoint>();
+
+				foreach ( var redPoint in All.OfType<RedSpawnpoint>() )
+					spawnpoints.Add( redPoint );
+
+				int checkedIndex = 0;
+				int randomIndex = Rand.Int( checkedIndex, spawnpoints.Count - 1 );
+
+				while ( spawnpoints[randomIndex].Position.IsNaN && checkedIndex < spawnpoints.Count )
+				{
+					Log.Info( checkedIndex );
+					checkedIndex += 1;
+					randomIndex = Rand.Int( checkedIndex, spawnpoints.Count - 1 );
+				}
+
+				Position = spawnpoints[randomIndex].Position;
+			}
+		}
+	}
+
 	public override void Respawn()
 	{
 		Inventory.DeleteContents();
-
-		if ( curTeam != SFTeams.Unspecified )
-			Inventory.Add( new Snowball(), true );
 
 		SetModel( "models/citizen/citizen.vmdl" );
 
@@ -36,6 +83,8 @@ public partial class SFPlayer : Player
 		EnableShadowInFirstPerson = true;
 
 		base.Respawn();
+
+		SetPositionSpawn();
 	}
 
 	public override void Simulate( Client cl )

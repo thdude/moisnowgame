@@ -1,7 +1,6 @@
 ﻿using Sandbox;
 
 [ Library("ent_sf_present") ]
-[Hammer.Skip]
 partial class Present : Prop
 {
 	private BaseTrigger trigger;
