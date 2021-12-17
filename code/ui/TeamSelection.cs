@@ -9,6 +9,7 @@ public partial class TeamSelection : Panel
 	private TimeSince lastOpenTime;
 	private Label greenBtn;
 	private Label redBtn;
+	
 	public TeamSelection()
 	{
 		StyleSheet.Load( "/ui/teamselection.scss" );

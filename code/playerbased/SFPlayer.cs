@@ -9,6 +9,7 @@ public partial class SFPlayer : Player
 		Inventory = new Inventory( this );
 	}
 
+	//First time spawn (can be after joining or restarting)
 	public void InitialSpawn()
 	{
 		curTeam = SFTeams.Unspecified;
