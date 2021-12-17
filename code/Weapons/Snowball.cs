@@ -4,7 +4,7 @@
 partial class Snowball : WeaponBase
 {
 	public override string WorldModelPath => "models/snowball.vmdl";
-	public override string ViewModelPath => "weapons/rust_pistol/v_rust_pistol.vmdl";
+	public override string ViewModelPath => "models/viewmodels/snowball.vmdl";
 	public override float PrimaryRate => 1.05f;
 	public override AmmoType AmmoType => AmmoType.SF_SnowAmmo;
 
