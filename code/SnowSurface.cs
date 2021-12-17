@@ -55,8 +55,8 @@ public static class SnowSurface
 		// Get us a particle effect
 		//
 
-		string particleName = Rand.FromArray( self.ImpactEffects.Bullet );
-		if ( string.IsNullOrWhiteSpace( particleName ) ) particleName = Rand.FromArray( self.ImpactEffects.Regular );
+		string particleName = "particles/hit_effects/snowhit_base.vpcf";
+		// if ( string.IsNullOrWhiteSpace( particleName ) ) particleName = Rand.FromArray( self.ImpactEffects.Regular );
 
 		surf = self.GetBaseSurface();
 		while ( string.IsNullOrWhiteSpace( particleName ) && surf != null )
