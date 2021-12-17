@@ -1,0 +1,63 @@
+﻿teampresentcounter {
+    position: absolute;
+    height: 150px;
+    width: 150px;
+    right: 50%;
+    bottom: 150px;
+    transform: scale( 1 );
+    transition: all 0.1s ease-out;
+    opacity: 0;
+
+    &.update {
+        transform: scale(1.20);
+        transition: all 0.05s ease-in;
+    }
+    
+    &.active {
+        opacity: 1;
+    }
+}
+
+.redTeamPresents {
+    position: absolute;
+    height: 130px;
+    width: 145px;
+    padding-top: 15px;
+    background-repeat: no-repeat;
+    background-image: url(materials/ui/redteam_presents.png);
+    right: 125px;
+    top: -510%;
+
+    .countText {
+        left: 125px;
+        top: 50px;
+        color: white;
+        font-family: Poppins;
+        font-size: 50px;
+        font-weight: 900;
+        color: white;
+        text-shadow: -5px 5px black;
+    }
+}
+
+.greenTeamPresents {
+    position: absolute;
+    height: 130px;
+    width: 145px;
+    padding-top: 15px;
+    background-repeat: no-repeat;
+    background-image: url(materials/ui/greenteam_presents.png);
+    left: 275px;
+    top: -510%;
+
+    .countText {
+        right: 75px;
+        top: 50px;
+        color: white;
+        font-family: Poppins;
+        font-size: 50px;
+        font-weight: 900;
+        color: white;
+        text-shadow: 5px 5px black;
+    }
+}
