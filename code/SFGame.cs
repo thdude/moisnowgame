@@ -1,10 +1,4 @@
-﻿
-using Sandbox;
-using Sandbox.UI;
-using Sandbox.UI.Construct;
-using System;
-using System.IO;
-using System.Threading.Tasks;
+﻿using Sandbox;
 
 [Library( "SnowFight" )]
 public partial class SFGame : Sandbox.Game
@@ -43,5 +37,13 @@ public partial class SFGame : Sandbox.Game
 		client.Pawn = player;
 
 		player.InitialSpawn();
+	}
+
+	public override void ClientDisconnect( Client cl, NetworkDisconnectionReason reason )
+	{
+		base.ClientDisconnect( cl, reason );
+
+		if( ShouldStopGame() )
+			StopGame();
 	}
 }

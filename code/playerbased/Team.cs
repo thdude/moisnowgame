@@ -1,9 +1,7 @@
 ﻿using Sandbox;
 using Sandbox.UI;
-using Sandbox.UI.Construct;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 partial class SFPlayer
 {
@@ -25,7 +23,7 @@ partial class SFPlayer
 		if ( player.curTeam == newTeam )
 		{
 			using ( Prediction.Off() )
-				ChatBox.AddInformation( To.Single( this ), $"You are already on the {newTeam} team" );
+				SFChatBox.AddInformation( To.Single( this ), $"You are already on the {newTeam} team" );
 
 			return;
 		}
@@ -37,11 +35,11 @@ partial class SFPlayer
 		else
 			return;
 
-		//If a minute hasn't passed since last team swap, stop here
+		//If 30 seconds hasn't passed since last team swap, stop here
 		if ( timeSinceSwitchTeam < 30.0f )
 		{
 			using ( Prediction.Off() )
-				ChatBox.AddInformation( To.Single(this), $"Wait {MathF.Round(30.0f - timeSinceSwitchTeam, 1)}s before switching" );
+				SFChatBox.AddInformation( To.Single(this), $"Wait {MathF.Round(30.0f - timeSinceSwitchTeam, 1)}s before switching" );
 			
 			return;
 		}
@@ -50,11 +48,14 @@ partial class SFPlayer
 		using ( Prediction.Off() )
 		{
 			UpdateTeamClient( To.Single( this ), newTeam );
-			ChatBox.AddInformation( To.Everyone, $"{player.Client.Name} has joined the {newTeam} team", $"avatar:{player.Client.PlayerId}" );
+			SFChatBox.AddInformation( To.Everyone, $"{player.Client.Name} has joined the {newTeam} team", $"avatar:{player.Client.PlayerId}" );
 		}
 
 		timeSinceSwitchTeam = 0.0f;
 		OnKilled();
+
+		if(SFGame.CanStartGame())
+			Event.Run( "SF_BeginGame" );
 
 	}
 
@@ -70,7 +71,7 @@ partial class SFPlayer
 	}
 
 	//Gets each member for this team
-	public List<SFPlayer> GetGreenMembers()
+	public static List<SFPlayer> GetGreenMembers()
 	{
 		List<SFPlayer> curGreenMembers = new();
 
@@ -87,7 +88,7 @@ partial class SFPlayer
 	}
 
 	//Same as above but for the red team
-	public List<SFPlayer> GetRedMembers()
+	public static List<SFPlayer> GetRedMembers()
 	{
 		List<SFPlayer> curRedMembers = new();
 

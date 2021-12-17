@@ -1,10 +1,10 @@
 ﻿using Sandbox;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
 public partial class SFPlayer : Player
 {
+	public bool lockControls = false;
 	public SFPlayer()
 	{
 		Inventory = new Inventory( this );
@@ -106,6 +106,9 @@ public partial class SFPlayer : Player
 
 			return;
 		}
+
+		if ( lockControls && IsServer )
+			return;
 
 		base.Simulate( cl );
 		SimulateActiveChild( cl, ActiveChild );
