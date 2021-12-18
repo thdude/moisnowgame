@@ -1,6 +1,8 @@
 ﻿using Sandbox;
 
 [Library("ent_sf_fireplace")]
+[Hammer.EditorModel( "models/citizen_props/crate01.vmdl_c" )]
+[Hammer.EntityTool( "Campfire", "Snow-Fight", "A place to stay warm" )]
 partial class Fireplace : Prop
 {
 	private Particles fireEffect;

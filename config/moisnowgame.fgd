@@ -23,7 +23,14 @@
 //
 // DepositBox
 //
-@PointClass base(BaseProperties_moisnowgame) tags( Physics ) model() = ent_sf_depositbox : ""
+@PointClass base(BaseProperties_moisnowgame) tags( Physics ) editormodel( "models/citizen_props/crate01.vmdl_c" ) model() 
+metadata
+{
+	entity_tool_name = "Deposit Box"
+	entity_tool_group = "Snow-Fight"
+	entity_tool_tip = "A box to deposit presents"
+}
+= ent_sf_depositbox : ""
 [
 	model(resource:vmdl) { report = true hide_when_solid = true }: "World Model" : "" : "The model this entity should use."
 	skin(materialgroup) { group = "Rendering" hide_when_solid = true } : "Skin" : "default" : "Some models have multiple versions of their textures, called skins." 
@@ -56,7 +63,14 @@
 //
 // Fireplace
 //
-@PointClass base(BaseProperties_moisnowgame) tags( Physics ) model() = ent_sf_fireplace : ""
+@PointClass base(BaseProperties_moisnowgame) tags( Physics ) editormodel( "models/citizen_props/crate01.vmdl_c" ) model() 
+metadata
+{
+	entity_tool_name = "Campfire"
+	entity_tool_group = "Snow-Fight"
+	entity_tool_tip = "A place to stay warm"
+}
+= ent_sf_fireplace : ""
 [
 	model(resource:vmdl) { report = true hide_when_solid = true }: "World Model" : "" : "The model this entity should use."
 	skin(materialgroup) { group = "Rendering" hide_when_solid = true } : "Skin" : "default" : "Some models have multiple versions of their textures, called skins." 
@@ -121,6 +135,20 @@ metadata
 
 	output OnDamaged(void) : "Fired when the entity gets damaged."
 	output OnBreak(void) : "Fired when the entity gets destroyed."
+]
+
+//
+// PresentSpawnpoint
+//
+@PointClass base(BaseProperties_moisnowgame) editormodel( "models/christmas/gift.vmdl_c" ) 
+metadata
+{
+	entity_tool_name = "Present Spawnpoint"
+	entity_tool_group = "Snow-Fight"
+	entity_tool_tip = "Where presents spawn at"
+}
+= ent_sf_present_spawnpoint : ""
+[
 ]
 
 //

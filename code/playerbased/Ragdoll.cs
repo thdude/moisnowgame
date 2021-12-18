@@ -26,34 +26,18 @@ partial class SFPlayer
 		ent.RenderColor = RenderColor;
 		ent.PhysicsGroup.Velocity = velocity;
 
-		if ( Local.Pawn == this )
-		{
-			//ent.EnableDrawing = false; wtf
-		}
-
 		ent.SetInteractsAs( CollisionLayer.Debris );
 		ent.SetInteractsWith( CollisionLayer.WORLD_GEOMETRY );
 		ent.SetInteractsExclude( CollisionLayer.Player | CollisionLayer.Debris );
 
-		foreach ( var child in Children )
-		{
-			if ( child is ModelEntity e )
-			{
-				var model = e.GetModelName();
-				if ( model != null && !model.Contains( "clothes" ) )
-					continue;
+		ModelEntity droppedHat = new ModelEntity();
 
-				var clothing = new ModelEntity();
-				clothing.SetModel( model );
-				clothing.SetParent( ent, true );
-				clothing.RenderColor = e.RenderColor;
+		if ( curTeam == SFTeams.Green )
+			droppedHat.SetModel( "models/grinch_hat.vmdl_c" );
+		else if ( curTeam == SFTeams.Red )
+			droppedHat.SetModel( "models/santa_hat.vmdl_c" );
 
-				if ( Local.Pawn == this )
-				{
-					//	clothing.EnableDrawing = false; wtf
-				}
-			}
-		}
+		droppedHat.SetParent( ent, true);
 
 		if ( damageFlags.HasFlag( DamageFlags.Bullet ) )
 		{

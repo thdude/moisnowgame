@@ -10,6 +10,8 @@ public partial class SFPlayer : Player
 		Inventory = new Inventory( this );
 	}
 
+	ModelEntity hat;
+
 	private TimeSince timeKilled;
 
 	public DamageInfo dmgInfo;
@@ -24,6 +26,25 @@ public partial class SFPlayer : Player
 		Respawn();
 	}
 
+	//Applies a hat to the player
+	public void GiveHat()
+	{
+		if ( hat.IsValid() )
+			hat.Delete();
+
+		hat = new ModelEntity();
+
+		if ( curTeam == SFTeams.Green )
+			hat.SetModel( "models/grinch_hat.vmdl_c" );
+		else if ( curTeam == SFTeams.Red )
+			hat.SetModel( "models/santa_hat.vmdl_c" );
+
+		hat.SetParent( this, true );
+		hat.EnableShadowInFirstPerson = true;
+		hat.EnableHideInFirstPerson = true;
+	}
+
+	//Sets the position based on current team
 	public void SetPositionSpawn()
 	{
 		if ( curTeam != SFTeams.Unspecified )
@@ -93,6 +114,7 @@ public partial class SFPlayer : Player
 		base.Respawn();
 
 		SetPositionSpawn();
+		GiveHat();
 	}
 
 	public override void Simulate( Client cl )

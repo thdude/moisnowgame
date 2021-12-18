@@ -1,10 +1,11 @@
 ﻿using Sandbox;
-using Sandbox.UI;
+using System.Collections.Generic;
 using System.Linq;
 
 public partial class SFGame
 {
 	public static TimeSince timeToBegin = 0;
+	public TimeSince timeSinceDrop = 0;
 
 	public enum enumStatus
 	{
@@ -96,6 +97,22 @@ public partial class SFGame
 			{
 				UpdateGameStateClient( To.Everyone, enumStatus.Active );
 			}
+		}
+
+		if ( gameStatus == enumStatus.Active && timeSinceDrop >= Rand.Int( 5, 16 ) )
+		{
+			List<PresentSpawnpoint> spawnPoints = new();
+
+			foreach ( var point in All.OfType<PresentSpawnpoint>() )
+			{
+				if( point.IsFromMap )
+				{
+					spawnPoints.Add( point );
+				}
+			}
+
+			var presentDrop = new Present();
+			presentDrop.Position = spawnPoints[Rand.Int( 0, spawnPoints.Count )].Position;
 		}
 	}
 
