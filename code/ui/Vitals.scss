@@ -6,14 +6,16 @@
     height: 250px;
     background-repeat: no-repeat;
     background-image: url(materials/ui/health_bg.png);
-
+    
     .healthFill {
+        position: absolute;
         width: 230px;
         height: 250px;
-        bottom: -5px;
         left: 1px;
+        bottom: -2.5%;
         background-repeat: no-repeat;
         background-image: url(materials/ui/health_icon.png);
         transform: rotateX(180);
     }
 }
+
