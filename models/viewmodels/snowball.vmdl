@@ -32,7 +32,7 @@
 						filename = "models/viewmodels/vm_arms.fbx"
 						import_translation = [ 0.0, 0.0, -125.0 ]
 						import_rotation = [ 0.0, 0.0, 0.0 ]
-						import_scale = 0.3
+						import_scale = 0.25
 						align_origin_x_type = "None"
 						align_origin_y_type = "None"
 						align_origin_z_type = "None"
@@ -65,8 +65,8 @@
 						disable_compression = false
 						source_filename = "models/viewmodels/anims/deploy.dmx"
 						start_frame = -1
-						end_frame = 60
-						framerate = -1.0
+						end_frame = 100
+						framerate = 80.0
 						take = 0
 						reverse = false
 					},
@@ -107,8 +107,8 @@
 						disable_compression = false
 						source_filename = "models/viewmodels/anims/attack.dmx"
 						start_frame = -1
-						end_frame = 60
-						framerate = -1.0
+						end_frame = 50
+						framerate = 80.0
 						take = 0
 						reverse = false
 					},
