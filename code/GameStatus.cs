@@ -5,7 +5,27 @@ using System.Linq;
 public partial class SFGame
 {
 	public static TimeSince timeToBegin = 0;
+	public static TimeSince timeToEnd = 0;
 	public TimeSince timeSinceDrop = 0;
+	
+	[Net]
+	public static bool redWinner { get; set; } = false;
+
+	[Net]
+	public static bool greenWinner { get; set; } = false;
+
+	private int randomTime = 5;
+
+	[Net]
+	public static int winGoal { get; } = 30;
+
+	[Net]
+	public static int redTotalGifts { get; set; } = 0;
+
+	[Net]
+	public static int greenTotalGifts { get; set; } = 0;
+
+	List<PresentSpawnpoint> spawnPoints = new();
 
 	public enum enumStatus
 	{
@@ -16,6 +36,8 @@ public partial class SFGame
 	}
 
 	public static enumStatus gameStatus;
+
+	//Checks if we can we start the game
 	public static bool CanStartGame()
 	{
 		if ( SFPlayer.GetRedMembers().Count >= 1 && SFPlayer.GetGreenMembers().Count >= 1 )
@@ -24,18 +46,39 @@ public partial class SFGame
 		return false;
 	}
 
+	//Stops the game
 	[Event( "SF_StopGame" )]
 	public void StopGame()
 	{
+		//If the game is already on idle, stop here
+		if ( gameStatus == enumStatus.Idle )
+			return;
+
 		gameStatus = enumStatus.Idle;
+
+		foreach ( var client in Client.All )
+		{
+			if ( client.Pawn is SFPlayer player )
+				player.lockControls = false;
+		}
+
+		foreach ( var oldGift in All.OfType<Present>() )
+			oldGift.Delete();
+
+		redTotalGifts = 0;
+		greenTotalGifts = 0;
 
 		using ( Prediction.Off() )
 		{
 			SFChatBox.AddInformation( To.Everyone, "Stopped Game" );
 			UpdateGameStateClient( To.Everyone, enumStatus.Idle );
+
+			UpdateTeamScoreClient( To.Everyone, SFPlayer.SFTeams.Red, redTotalGifts );
+			UpdateTeamScoreClient( To.Everyone, SFPlayer.SFTeams.Green, greenTotalGifts );
 		}
 	}
 
+	//Admin commands for starting and stopping the game
 	[ServerCmd("SF_AdminStartGame")]
 	public static void StartGameCMD()
 	{
@@ -48,6 +91,7 @@ public partial class SFGame
 		Event.Run( "SF_StopGame" );
 	}
 
+	//Bool to check if the game should stop
 	public static bool ShouldStopGame()
 	{
 		if ( SFPlayer.GetGreenMembers().Count < 1 || SFPlayer.GetRedMembers().Count < 1 )
@@ -56,11 +100,18 @@ public partial class SFGame
 		return false;
 	}
 
+
 	[Event( "SF_BeginGame" )]
 	public void StartGame()
 	{
+		//If the status is not idle, stop here
+		//since we don't want to end up restarting an active game
+		//unless necessary
 		if ( gameStatus != enumStatus.Idle )
 			return;
+
+		redTotalGifts = 0;
+		greenTotalGifts = 0;
 
 		gameStatus = enumStatus.Start;
 
@@ -75,17 +126,32 @@ public partial class SFGame
 			}
 		}
 
+		foreach ( var oldGift in All.OfType<Present>() )
+			oldGift.Delete();
+
+		foreach ( var point in All.OfType<PresentSpawnpoint>() )
+		{
+			if ( point.IsFromMap )
+			{
+				spawnPoints.Add( point );
+			}
+		}
+
 		using ( Prediction.Off() )
 		{
 			SFChatBox.AddInformation( To.Everyone, "Starting game" );
-			UpdateGameStateClient( To.Everyone, enumStatus.Start );
+			UpdateGameStateClient( To.Everyone, gameStatus );
+
+			SetTeamScoreClient( To.Everyone, SFPlayer.SFTeams.Red, 0 );
+			SetTeamScoreClient( To.Everyone, SFPlayer.SFTeams.Green, 0 );
 		}
 	}
 
 	[Event.Tick.Server]
-	public void Tick()
+	public void ServerTick()
 	{
-		if ( timeToBegin > 7 && gameStatus == enumStatus.Start )
+		//Begins the game after a certain time
+		if ( gameStatus == enumStatus.Start && timeToBegin > 7 )
 		{
 			foreach ( var client in Client.All )
 			{
@@ -93,26 +159,38 @@ public partial class SFGame
 					player.lockControls = false;
 			}
 
+			gameStatus = enumStatus.Active;
+
 			using ( Prediction.Off() )
-			{
-				UpdateGameStateClient( To.Everyone, enumStatus.Active );
-			}
+				UpdateGameStateClient( To.Everyone, gameStatus );
+		
 		}
 
-		if ( gameStatus == enumStatus.Active && timeSinceDrop >= Rand.Int( 5, 16 ) )
+		//Drop random present at given random time
+		if ( gameStatus == enumStatus.Active && timeSinceDrop >= randomTime )
 		{
-			List<PresentSpawnpoint> spawnPoints = new();
-
-			foreach ( var point in All.OfType<PresentSpawnpoint>() )
-			{
-				if( point.IsFromMap )
-				{
-					spawnPoints.Add( point );
-				}
-			}
+			timeSinceDrop = 0;
+			randomTime = Rand.Int( 3, 10 );
 
 			var presentDrop = new Present();
-			presentDrop.Position = spawnPoints[Rand.Int( 0, spawnPoints.Count )].Position;
+			presentDrop.Position = spawnPoints[Rand.Int( 0, spawnPoints.Count - 1 )].Position;
+		}
+
+		if( gameStatus == enumStatus.Post && timeToEnd >= 10)
+		{
+			gameStatus = enumStatus.Start;
+
+			foreach ( var client in Client.All )
+			{
+				if ( client.Pawn is SFPlayer player )
+					player.Respawn();
+			}
+
+			using ( Prediction.Off() )
+			{
+				SetTeamScoreClient( To.Everyone, SFPlayer.SFTeams.Red, 0 );
+				SetTeamScoreClient( To.Everyone, SFPlayer.SFTeams.Green, 0 );
+			}
 		}
 	}
 
@@ -122,16 +200,70 @@ public partial class SFGame
 		gameStatus = status;
 	}
 
+	//Ends the game
+	[Event( "SF_EndGame" )]
 	public void EndGame()
 	{
-		if ( IsClient )
-			return;
+		redTotalGifts = 0;
+		greenTotalGifts = 0;
 
+		timeToEnd = 0;
 		gameStatus = enumStatus.Post;
+
+		using ( Prediction.Off() )
+			UpdateGameStateClient( To.Everyone, gameStatus );
+		foreach ( var oldGift in All.OfType<Present>() )
+			oldGift.Delete();
 	}
 
-	public void DeclareWinner()
+	public static void DeclareWinner(SFPlayer.SFTeams winningTeam)
 	{
+		Event.Run( "SF_EndGame" );
 
+		if ( winningTeam == SFPlayer.SFTeams.Red )
+			using ( Prediction.Off() )
+				SetWinnerClient( To.Everyone, true, false );
+
+		else if ( winningTeam == SFPlayer.SFTeams.Green )
+			using ( Prediction.Off() )
+				SetWinnerClient( To.Everyone, false, true );
+
+		foreach ( var client in Client.All )
+		{
+			if ( client.Pawn is SFPlayer player )
+			{
+				player.lockControls = true;
+			}
+		}
+	}
+
+	[ClientRpc]
+	public static void SetWinnerClient( bool redWon, bool greenWon )
+	{
+		redWinner = redWon;
+		greenWinner = greenWon;
+	}
+
+	[ClientRpc]
+	public static void SetTeamScoreClient( SFPlayer.SFTeams teamUpdate, int amount )
+	{
+		if ( teamUpdate == SFPlayer.SFTeams.Red )
+			redTotalGifts = amount;
+		else if ( teamUpdate == SFPlayer.SFTeams.Green )
+			greenTotalGifts = amount;
+		else
+		{
+			redTotalGifts = amount;
+			greenTotalGifts = amount;
+		}
+	}
+
+	[ClientRpc]
+	public static void UpdateTeamScoreClient( SFPlayer.SFTeams teamUpdate, int newAmount )
+	{
+		if ( teamUpdate == SFPlayer.SFTeams.Red )
+			redTotalGifts += newAmount;
+		else if ( teamUpdate == SFPlayer.SFTeams.Green )
+			greenTotalGifts += newAmount;
 	}
 }
