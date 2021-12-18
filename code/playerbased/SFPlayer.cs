@@ -180,6 +180,7 @@ public partial class SFPlayer : Player
 		BecomeRagdollOnClient( Velocity, dmgInfo.Flags, dmgInfo.Position, dmgInfo.Force, GetHitboxBone( dmgInfo.HitboxIndex ) );
 		Camera = new DeathCamera();
 		EnableDrawing = false;
+		EnableAllCollisions = false;
 
 		for ( int i = 0; i < curPresents; i++ )
 		{
