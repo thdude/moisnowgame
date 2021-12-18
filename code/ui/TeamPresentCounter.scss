@@ -7,12 +7,7 @@
     transform: scale( 1 );
     transition: all 0.1s ease-out;
     opacity: 0;
-
-    &.update {
-        transform: scale(1.20);
-        transition: all 0.05s ease-in;
-    }
-    
+ 
     &.active {
         opacity: 1;
     }
@@ -27,6 +22,11 @@
     background-image: url(materials/ui/redteam_presents.png);
     right: 125px;
     top: -510%;
+
+    &.update {
+        transform: scale(1.20);
+        transition: all 0.05s ease-in;
+    }
 
     .countText {
         left: 125px;
@@ -47,11 +47,16 @@
     padding-top: 15px;
     background-repeat: no-repeat;
     background-image: url(materials/ui/greenteam_presents.png);
-    left: 275px;
+    left: 250px;
     top: -510%;
 
+    &.update {
+        transform: scale(1.20);
+        transition: all 0.05s ease-in;
+    }
+
     .countText {
-        right: 75px;
+        right: 50px;
         top: 50px;
         color: white;
         font-family: Poppins;

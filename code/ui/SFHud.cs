@@ -14,5 +14,6 @@ public partial class SFHud : Sandbox.HudEntity<RootPanel>
 		RootPanel.AddChild<Vitals>();
 		RootPanel.AddChild<Deathscreen>();
 		RootPanel.AddChild<TeamPresentCounter>();
+		RootPanel.AddChild<WinnerAnnounce>();
 	}
 }

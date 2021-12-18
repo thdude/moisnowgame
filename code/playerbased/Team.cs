@@ -29,12 +29,14 @@ partial class SFPlayer
 		}
 
 		//Checks if the player can join that team, if not stop here
-		if ( (newTeam == SFTeams.Red && GetRedMembers().Count <= GetGreenMembers().Count)
-			|| (newTeam == SFTeams.Green && GetGreenMembers().Count <= GetRedMembers().Count) )
-			curTeam = newTeam;
-		else
-			return;
+		if ( (newTeam == SFTeams.Red && GetRedMembers().Count > GetGreenMembers().Count)
+			|| (newTeam == SFTeams.Green && GetGreenMembers().Count > GetRedMembers().Count) )
+		{
+			using ( Prediction.Off() )
+				SFChatBox.AddInformation( To.Single( this ), $"You can't pick the {newTeam} team at this time, select a different one" );
 
+			return;
+		}
 		//If 30 seconds hasn't passed since last team swap, stop here
 		if ( timeSinceSwitchTeam < 30.0f )
 		{
@@ -43,7 +45,9 @@ partial class SFPlayer
 			
 			return;
 		}
-		
+
+		curTeam = newTeam;
+
 		//Turn prediction off so that we can update the team on the client
 		using ( Prediction.Off() )
 		{

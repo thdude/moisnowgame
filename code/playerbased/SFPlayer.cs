@@ -63,7 +63,6 @@ public partial class SFPlayer : Player
 
 				while ( spawnpoints[randomIndex].Position.IsNaN && checkedIndex < spawnpoints.Count )
 				{
-					Log.Info( checkedIndex );
 					checkedIndex += 1;
 					randomIndex = Rand.Int( checkedIndex, spawnpoints.Count - 1 );
 				}
@@ -84,7 +83,6 @@ public partial class SFPlayer : Player
 
 				while ( spawnpoints[randomIndex].Position.IsNaN && checkedIndex < spawnpoints.Count )
 				{
-					Log.Info( checkedIndex );
 					checkedIndex += 1;
 					randomIndex = Rand.Int( checkedIndex, spawnpoints.Count - 1 );
 				}

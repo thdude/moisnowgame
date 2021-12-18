@@ -29,8 +29,8 @@ partial class PresentCounter : Panel
 				lastPickup = 0;
 				lastCount = player.curPresents; 
 			}
+
 			SetClass( "pickup", lastPickup < 0.1f);
-			
 			SetClass( "death", player.Health <= 0 );
 
 			presentCount.Text = $"x{player.curPresents}";
