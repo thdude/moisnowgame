@@ -10,7 +10,7 @@
 		position: absolute;
 		font-weight: 500;
 		color: white;
-		background-color: rgba( #222, 0.95 );
+		background-color: rgba(140, 253, 255, 0.1);
 		font-size: 40px;
 		transform-origin: 50% 0%;
 		border-radius: 10px;
@@ -21,6 +21,14 @@
 		label {
 			padding: 1px 60px;
 			padding-left: 40px;
+
+			&.Green {
+				color: rgba(40, 255, 70, 1);
+			}
+
+			&.Red {
+				color: rgba(255, 40, 40, 1);
+			}
 		}
 
 		image {
