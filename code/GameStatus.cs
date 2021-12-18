@@ -59,7 +59,10 @@ public partial class SFGame
 		foreach ( var client in Client.All )
 		{
 			if ( client.Pawn is SFPlayer player )
+			{
 				player.lockControls = false;
+				player.musicPlayer.StopMusic();
+			}
 		}
 
 		foreach ( var oldGift in All.OfType<Present>() )
@@ -123,6 +126,8 @@ public partial class SFGame
 			{
 				player.Respawn();
 				player.lockControls = true;
+
+				player.musicPlayer.StartMusic( "halls" );
 			}
 		}
 
@@ -242,6 +247,23 @@ public partial class SFGame
 	{
 		redWinner = redWon;
 		greenWinner = greenWon;
+
+		foreach(var client in Client.All)
+		{
+			if( client.Pawn is SFPlayer player )
+			{
+				if ( player.curTeam == SFPlayer.SFTeams.Red && redWinner )
+					Sound.FromScreen( "winner.sound" );
+				else if( player.curTeam == SFPlayer.SFTeams.Red && !redWinner )
+					Sound.FromScreen( "loser.sound" );
+
+				if ( player.curTeam == SFPlayer.SFTeams.Green && greenWinner )
+					Sound.FromScreen( "winner.sound" );
+				else if ( player.curTeam == SFPlayer.SFTeams.Green && !greenWinner )
+					Sound.FromScreen( "loser.sound" );
+			}
+		}
+
 	}
 
 	[ClientRpc]

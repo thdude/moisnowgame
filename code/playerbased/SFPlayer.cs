@@ -6,14 +6,14 @@ public partial class SFPlayer : Player
 {
 	public bool lockControls = false;
 
+	[Net, Predicted]
+	public static bool toggleMusic { get; set; } = true;
+
 	[Net] public float SprintTime { get; set; }
 
 	private TimeSince timeLastSprint;
 
-	public SFPlayer()
-	{
-		Inventory = new Inventory( this );
-	}
+	public Music musicPlayer;
 
 	ModelEntity hat;
 
@@ -23,9 +23,16 @@ public partial class SFPlayer : Player
 
 	public TimeSince lastPickup;
 
+	public SFPlayer()
+	{
+		Inventory = new Inventory( this );
+	}
+
 	//First time spawn (can be after joining or restarting)
 	public void InitialSpawn()
 	{
+		musicPlayer = new Music();
+
 		timeSinceSwitchTeam = 30.0f;
 		curTeam = SFTeams.Unspecified;
 		Respawn();
@@ -173,10 +180,16 @@ public partial class SFPlayer : Player
 		base.StartTouch( other );
 	}
 
+	public override void TakeDamage( DamageInfo info )
+	{
+		base.TakeDamage( info );
+	}
+
 	public override void OnKilled()
 	{
 		timeKilled = 0;
 		base.OnKilled();
+
 		BecomeRagdollOnClient( Velocity, dmgInfo.Flags, dmgInfo.Position, dmgInfo.Force, GetHitboxBone( dmgInfo.HitboxIndex ) );
 		Camera = new DeathCamera();
 		EnableDrawing = false;

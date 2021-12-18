@@ -74,7 +74,8 @@ partial class DepositBox : Prop, IUse
 
 					SFGame.SetTeamScoreClient( To.Everyone, SFPlayer.SFTeams.Green, SFGame.winGoal );
 				}
-
+				
+				player.Client.AddInt( "gifts", player.curPresents );
 				player.SetPresent( 0 );
 			}
 				

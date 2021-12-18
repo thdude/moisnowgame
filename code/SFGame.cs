@@ -5,7 +5,6 @@ public partial class SFGame : Sandbox.Game
 {
 	private SFHud hud;
 
-	public Music musicPlayer;
 	public SFGame()
 	{
 		if ( IsServer )

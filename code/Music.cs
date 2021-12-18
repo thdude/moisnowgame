@@ -1,14 +1,21 @@
 ﻿using Sandbox;
-public class Music
+public partial class Music
 {
 	private Sound music;
 	public Music()
 	{
+		
 	}
+	public void StopMusicClient()
+	{
+		music.Stop();
+	}
+
 
 	public void StopMusic()
 	{
-		music.Stop();
+		using ( Prediction.Off() )
+			music.Stop();
 	}
 
 	public void StartMusic( string musicPath )
@@ -16,7 +23,7 @@ public class Music
 		using ( Prediction.Off() )
 		{
 			music = Sound.FromScreen( musicPath );
-			music.SetVolume( 0.75f );
+			music.SetVolume( 0.10f );
 		}
 	}
 }
