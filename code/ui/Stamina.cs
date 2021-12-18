@@ -22,7 +22,7 @@ public partial class Stamina : Panel
 		if ( pawn is SFPlayer player )
 		{
 			Style.Dirty();
-			Style.Width = Length.Percent( player.SprintTime );
+			Style.Width = Length.Percent( player.SprintTime / 10);
 		}
 
 		base.Tick();

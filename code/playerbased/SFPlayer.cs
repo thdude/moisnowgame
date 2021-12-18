@@ -133,15 +133,15 @@ public partial class SFPlayer : Player
 		{
 			timeLastSprint = 0;
 			if ( SprintTime > 0.0f )
-				SprintTime -= 0.1f;
+				SprintTime -= 1f;
 
 			using( Prediction.Off() )
 				UpdateSprintClient( To.Single( this ), SprintTime );
 		}
 
 		if ( timeLastSprint > 4.5f && IsServer )
-			if ( SprintTime < 10.0f )
-				SprintTime += 0.01f;
+			if ( SprintTime < 100.0f )
+				SprintTime += 0.5f;
 
 		if ( LifeState == LifeState.Dead )
 		{
