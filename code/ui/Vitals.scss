@@ -1,18 +1,20 @@
 ﻿vitals {
     position: absolute;
-    background-size: 100%;
-    bottom: 10px;
-    left: 10px;
-    width:256px;
-    height: 256px;
+    bottom: 25px;
+    opacity: 1;
+    width: 225px;
+    height: 250px;
     background-repeat: no-repeat;
     background-image: url(materials/ui/health_bg.png);
 
     .healthFill {
-        width: 100%;
-        height: 100%;
-        background-size: 100%;
+        position: absolute;
+        width: 230px;
+        height: 250px;
+        bottom: -5px;
+        left: 1px;
         background-repeat: no-repeat;
         background-image: url(materials/ui/health_icon.png);
+        transform: rotateX(180);
     }
 }

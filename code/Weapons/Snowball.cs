@@ -13,7 +13,7 @@ partial class Snowball : WeaponBase
 
 		SetModel( WorldModelPath );
 
-		AmmoClip = 5;
+		AmmoClip = 10;
 	}
 
 	public override void OnCarryStart( Entity carrier )

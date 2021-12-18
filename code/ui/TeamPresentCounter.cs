@@ -29,7 +29,7 @@ partial class TeamPresentCounter : Panel
 	{
 		base.Tick();
 
-
+		SetClass( "active", SFGame.gameStatus == SFGame.enumStatus.Active );
 	}
 }
 

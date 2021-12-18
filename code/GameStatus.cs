@@ -14,7 +14,7 @@ public partial class SFGame
 		Post
 	}
 
-	public static enumStatus gameStatus = enumStatus.Idle;
+	public static enumStatus gameStatus;
 	public static bool CanStartGame()
 	{
 		if ( SFPlayer.GetRedMembers().Count >= 1 && SFPlayer.GetGreenMembers().Count >= 1 )
@@ -26,14 +26,13 @@ public partial class SFGame
 	[Event( "SF_StopGame" )]
 	public void StopGame()
 	{
-		if ( IsClient )
-			return;
-
 		gameStatus = enumStatus.Idle;
 
 		using ( Prediction.Off() )
+		{
 			SFChatBox.AddInformation( To.Everyone, "Stopped Game" );
-			
+			UpdateGameStateClient( To.Everyone, enumStatus.Idle );
+		}
 	}
 
 	[ServerCmd("SF_AdminStartGame")]
@@ -59,9 +58,6 @@ public partial class SFGame
 	[Event( "SF_BeginGame" )]
 	public void StartGame()
 	{
-		if ( IsClient )
-			return;
-
 		if ( gameStatus != enumStatus.Idle )
 			return;
 
@@ -75,13 +71,14 @@ public partial class SFGame
 			{
 				player.Respawn();
 				player.lockControls = true;
-				Log.Info( "Locking " + player.Client.Name + " controls" );
 			}
 		}
 
 		using ( Prediction.Off() )
+		{
 			SFChatBox.AddInformation( To.Everyone, "Starting game" );
-
+			UpdateGameStateClient( To.Everyone, enumStatus.Start );
+		}
 	}
 
 	[Event.Tick.Server]
@@ -95,8 +92,17 @@ public partial class SFGame
 					player.lockControls = false;
 			}
 
-			gameStatus = enumStatus.Active;
+			using ( Prediction.Off() )
+			{
+				UpdateGameStateClient( To.Everyone, enumStatus.Active );
+			}
 		}
+	}
+
+	[ClientRpc]
+	private void UpdateGameStateClient( enumStatus status )
+	{
+		gameStatus = status;
 	}
 
 	public void EndGame()

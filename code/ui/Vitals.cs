@@ -10,9 +10,8 @@ public partial class Vitals : Panel
 
 	public Vitals()
 	{
-		StyleSheet.Load( "UI/Vitals.scss" );
+		StyleSheet.Load( "/UI/Vitals.scss" );
 
-		healthBar = Add.Panel( "healthEmpty" );
 		healthFillIcon = Add.Panel( "healthFill" );
 	}
 

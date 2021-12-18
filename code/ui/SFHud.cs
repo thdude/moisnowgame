@@ -4,6 +4,8 @@ public partial class SFHud : Sandbox.HudEntity<RootPanel>
 {
 	public SFHud()
 	{
+		RootPanel.AddChild<SFNameTags>();
+		RootPanel.AddChild<Scoreboard>();
 		RootPanel.AddChild<SFChatBox>();
 		RootPanel.AddChild<TeamSelection>();
 		RootPanel.AddChild<AmmoCounter>();
@@ -12,6 +14,5 @@ public partial class SFHud : Sandbox.HudEntity<RootPanel>
 		RootPanel.AddChild<Vitals>();
 		RootPanel.AddChild<Deathscreen>();
 		RootPanel.AddChild<TeamPresentCounter>();
-		RootPanel.AddChild<NameTags>();
 	}
 }

@@ -14,6 +14,8 @@ partial class SnowballRefill : Prop, IUse
 		All = 3
 	}
 
+	private TimeSince lastUse = 0;
+
 	[Property( "teamEnum", Title = "Which team can refill their ammo" )]
 	public Flags TeamEnum { get; set; } = Flags.All;
 
@@ -38,14 +40,27 @@ partial class SnowballRefill : Prop, IUse
 	{
 		if (user is SFPlayer player)
 		{
+			if ( lastUse < 0.5 )
+				return false;
+
+			lastUse = 0;
+
 			if ( player.curTeam.ToString() != TeamEnum.ToString() && TeamEnum != Flags.All )
 				return false;
 
 			if ( player.ActiveChild is WeaponBase weapon )
 			{	
-				if ( weapon.ToString().Contains("Snowball") && weapon.AmmoClip < 5 )
+				if ( weapon.ToString().Contains("Snowball") && weapon.AmmoClip < 10 )
 				{
-					weapon.AmmoClip = 5;
+					weapon.AmmoClip += 5;
+
+					if ( weapon.AmmoClip > 10 )
+					{
+						weapon.AmmoClip = 10;
+						Sound.FromEntity( "power_pickup", this );
+						return true;
+					}
+
 					Sound.FromEntity( "power_pickup", this);
 					return true;
 				}
