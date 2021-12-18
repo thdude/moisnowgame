@@ -173,6 +173,19 @@ public partial class SFPlayer : Player
 		base.StartTouch( other );
 	}
 
+	public override void TakeDamage( DamageInfo info )
+	{
+		base.TakeDamage( info );
+
+		if ( info.Attacker is SFPlayer attacker && attacker != this )
+		{
+			// Note - sending this only to the attacker!
+			attacker.DidDamage( To.Single( attacker ), info.Position, info.Damage, Health.LerpInverse( 100, 0 ) );
+
+			TookDamage( To.Single( this ), info.Weapon.IsValid() ? info.Weapon.Position : info.Attacker.Position );
+		}
+	}
+
 	public override void OnKilled()
 	{
 		timeKilled = 0;
