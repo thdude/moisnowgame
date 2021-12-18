@@ -5,7 +5,7 @@ using Sandbox.UI.Construct;
 public partial class Vitals : Panel
 {
 	private Panel healthBar;
-	private Panel healthEmptyIcon;
+	private Panel staminaBar;
 	private Panel healthFillIcon;
 
 	public Vitals()
@@ -13,6 +13,7 @@ public partial class Vitals : Panel
 		StyleSheet.Load( "/UI/Vitals.scss" );
 
 		healthFillIcon = Add.Panel( "healthFill" );
+		staminaBar = Add.Panel( "staminaBar" );
 	}
 
 	public override void Tick()

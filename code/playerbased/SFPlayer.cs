@@ -5,6 +5,11 @@ using System.Linq;
 public partial class SFPlayer : Player
 {
 	public bool lockControls = false;
+
+	[Net] public float SprintTime { get; set; }
+
+	private TimeSince timeLastSprint;
+
 	public SFPlayer()
 	{
 		Inventory = new Inventory( this );
@@ -94,13 +99,14 @@ public partial class SFPlayer : Player
 
 	public override void Respawn()
 	{
-		lastPickup = 0;
 		SetPresent( 0 );
+		SprintTime = 100f;
 		Inventory.DeleteContents();
 
 		SetModel( "models/citizen/citizen.vmdl" );
 
-		Controller = new WalkController();
+		//Because the standard walk controller can't be adjusted, we'll make a new one
+		Controller = new SFController();
 		Animator = new StandardPlayerAnimator();
 		Camera = new FirstPersonCamera();
 
@@ -115,8 +121,28 @@ public partial class SFPlayer : Player
 		GiveHat();
 	}
 
+	[ClientRpc]
+	private void UpdateSprintClient(float sprint)
+	{
+		SprintTime = sprint;
+	}
+
 	public override void Simulate( Client cl )
 	{
+		if ( Input.Down( InputButton.Run ) && IsServer )
+		{
+			timeLastSprint = 0;
+			if ( SprintTime > 0.0f )
+				SprintTime -= 0.1f;
+
+			using( Prediction.Off() )
+				UpdateSprintClient( To.Single( this ), SprintTime );
+		}
+
+		if ( timeLastSprint > 4.5f && IsServer )
+			if ( SprintTime < 10.0f )
+				SprintTime += 0.01f;
+
 		if ( LifeState == LifeState.Dead )
 		{
 			if(SFGame.gameStatus == SFGame.enumStatus.Idle && timeKilled > 2 && IsServer ) 
