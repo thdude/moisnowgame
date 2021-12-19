@@ -22,10 +22,18 @@ public partial class SFPlayer : Player
 	public DamageInfo dmgInfo;
 
 	public TimeSince lastPickup;
+	
+	public Clothing.Container Clothing = new();
 
 	public SFPlayer()
 	{
 		Inventory = new Inventory( this );
+	}
+
+	public SFPlayer( Client cl ) : this()
+	{
+		// Load clothing from client data
+		Clothing.LoadFromClient( cl );
 	}
 
 	//First time spawn (can be after joining or restarting)
@@ -111,6 +119,8 @@ public partial class SFPlayer : Player
 		Inventory.DeleteContents();
 
 		SetModel( "models/citizen/citizen.vmdl" );
+
+		Clothing.DressEntity( this );
 
 		//Because the standard walk controller can't be adjusted, we'll make a new one
 		Controller = new SFController();
