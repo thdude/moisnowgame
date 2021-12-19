@@ -30,6 +30,11 @@ partial class Snowball : WeaponBase
 	public override void Simulate( Client owner )
 	{
 		base.Simulate( owner );
+
+		if (AmmoClip == 0)
+			ViewModelEntity?.SetAnimBool("empty", true);
+		else
+			ViewModelEntity?.SetAnimBool("empty", false);
 	}
 
 	public override void AttackPrimary()
