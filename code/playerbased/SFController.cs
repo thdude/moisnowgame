@@ -457,18 +457,25 @@ public partial class SFController : BasePlayerController
 		if ( GroundEntity == null )
 			return;
 
-		/*
-        if ( player->m_Local.m_bDucking && (player->GetFlags() & FL_DUCKING) )
-            return false;
-        */
+		if ( Pawn is SFPlayer player )
+		{
+			if ( player.timeLastJump < 2.5f && GroundEntity != null )
+				return;
+			else
+				player.timeLastJump = 0;
+		}
+			/*
+			if ( player->m_Local.m_bDucking && (player->GetFlags() & FL_DUCKING) )
+				return false;
+			*/
 
-		/*
-        // Still updating the eye position.
-        if ( player->m_Local.m_nDuckJumpTimeMsecs > 0u )
-            return false;
-        */
+			/*
+			// Still updating the eye position.
+			if ( player->m_Local.m_nDuckJumpTimeMsecs > 0u )
+				return false;
+			*/
 
-		ClearGroundEntity();
+			ClearGroundEntity();
 
 		// player->PlayStepSound( (Vector &)mv->GetAbsOrigin(), player->m_pSurfaceData, 1.0, true );
 

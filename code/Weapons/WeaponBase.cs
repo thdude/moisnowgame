@@ -15,6 +15,7 @@ partial class WeaponBase : BaseWeapon
 	public virtual int Bucket => 0;
 	public virtual int BucketWeight => 100;
 
+	public virtual int MaxAmmoClip => 1;
 	public virtual string pickupSound => "";
 	
 	[Net, Predicted]

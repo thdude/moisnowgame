@@ -12,6 +12,7 @@ public partial class SFPlayer : Player
 	[Net] public float SprintTime { get; set; }
 
 	private TimeSince timeLastSprint;
+	public TimeSince timeLastJump;
 
 	public Music musicPlayer;
 
@@ -146,7 +147,7 @@ public partial class SFPlayer : Player
 
 	public override void Simulate( Client cl )
 	{
-		if ( Input.Down( InputButton.Run ) && IsServer )
+		if ( Health > 0 && Input.Down( InputButton.Run ) && (Input.Forward != 0 || Input.Left != 0 ) && IsServer )
 		{
 			timeLastSprint = 0;
 			if ( SprintTime > 0.0f )

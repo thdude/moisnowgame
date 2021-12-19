@@ -7,13 +7,15 @@ partial class Snowball : WeaponBase
 	public override string ViewModelPath => "models/viewmodels/snowball.vmdl";
 	public override float PrimaryRate => 0.95f;
 
+	public override int MaxAmmoClip => 15;
+
 	public override void Spawn()
 	{
 		base.Spawn();
 
 		SetModel( WorldModelPath );
 
-		AmmoClip = 10;
+		AmmoClip = 15;
 	}
 
 	public override void OnCarryStart( Entity carrier )

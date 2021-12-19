@@ -50,13 +50,13 @@ partial class SnowballRefill : Prop, IUse
 
 			if ( player.ActiveChild is WeaponBase weapon )
 			{	
-				if ( weapon.ToString().Contains("Snowball") && weapon.AmmoClip < 10 )
+				if ( weapon.ToString().Contains("Snowball") && weapon.AmmoClip < weapon.MaxAmmoClip )
 				{
 					weapon.AmmoClip += 5;
 
-					if ( weapon.AmmoClip > 10 )
+					if ( weapon.AmmoClip > weapon.MaxAmmoClip )
 					{
-						weapon.AmmoClip = 10;
+						weapon.AmmoClip = weapon.MaxAmmoClip;
 						Sound.FromEntity( "power_pickup", this );
 						return true;
 					}
