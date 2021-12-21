@@ -6,6 +6,8 @@ public partial class SFPlayer : Player
 {
 	public bool lockControls = false;
 
+	public PowerBase curPowerUp;
+
 	[Net] 
 	public float SprintTime { get; set; }
 
@@ -24,7 +26,6 @@ public partial class SFPlayer : Player
 	
 	public Clothing.Container Clothing = new();
 
-	public bool hasPowerUp = false;
 	public TimeSince powerUpExpire;
 
 	public SFPlayer()
@@ -162,12 +163,10 @@ public partial class SFPlayer : Player
 			if ( SprintTime < 100.0f )
 				SprintTime += 0.5f;
 
-		if ( hasPowerUp == true )
+		if ( curPowerUp != null && IsServer )
 		{
-			for ( int i = 0; i < Inventory.Count(); i++ )
-			{
-				Log.Info(Inventory.GetSlot( i ).Name);
-			}
+			if ( powerUpExpire > curPowerUp.expireTime )
+				curPowerUp = null;
 		}
 
 		if ( LifeState == LifeState.Dead )
@@ -210,7 +209,7 @@ public partial class SFPlayer : Player
 		timeKilled = 0;
 		base.OnKilled();
 
-		hasPowerUp = false;
+		curPowerUp = null;
 
 		BecomeRagdollOnClient( Velocity, dmgInfo.Flags, dmgInfo.Position, dmgInfo.Force, GetHitboxBone( dmgInfo.HitboxIndex ) );
 		Camera = new DeathCamera();

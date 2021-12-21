@@ -253,15 +253,20 @@ public partial class SFController : BasePlayerController
 	{
 		var ws = Duck.GetWishSpeed();
 		if ( ws >= 0 ) return ws;
-		if ( Input.Down( InputButton.Run ) )
-			if (Pawn is SFPlayer player)
+		
+		if ( Pawn is SFPlayer player )
+		{
+			if ( player.curPowerUp != null && player.curPowerUp.Name.Contains( "Coffee" ) )
+				return DefaultSpeed * 2.25f;
+
+			if ( Input.Down( InputButton.Run ) )
 			{
 				if ( player.SprintTime > 0.0f )
 					return SprintSpeed;
 				else
 					return DefaultSpeed;
-
 			}
+		}
 
 		//if ( Input.Down( InputButton.Run ) ) return SprintSpeed;
 		if ( Input.Down( InputButton.Walk ) ) return WalkSpeed;

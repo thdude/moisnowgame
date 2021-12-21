@@ -9,6 +9,8 @@ public partial class PowerBase : Prop
 	{
 		base.Spawn();
 		SetModel( modelPath );
+
+		Scale = 1.5f;
 	}
 
 	public override void StartTouch( Entity other )
@@ -17,24 +19,12 @@ public partial class PowerBase : Prop
 
 		if ( other is SFPlayer player )
 		{
-			if ( player.hasPowerUp == true )
+			if ( player.curPowerUp != null )
 				return;
 
-			PowerUpStart( player );
+			player.powerUpExpire = 0f;
+			player.curPowerUp = this;
 			Delete();
 		}
-	}
-
-	public virtual void PowerUpStart( SFPlayer player )
-	{
-		player.hasPowerUp = true;
-		player.powerUpExpire = 0f;
-		player.Inventory.Add( this );
-	}
-
-	public virtual void PowerUpEnd( SFPlayer player )
-	{
-		player.hasPowerUp = false;
-		player.Inventory.Drop( this );
 	}
 }

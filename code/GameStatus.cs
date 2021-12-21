@@ -4,10 +4,11 @@ using System.Linq;
 
 public partial class SFGame
 {
-	public static TimeSince timeToBegin = 0;
-	public static TimeSince timeToEnd = 0;
-	public TimeSince timeSinceDrop = 0;
-	
+	public static TimeSince timeToBegin;
+	public static TimeSince timeToEnd;
+	public TimeSince timeSinceDrop;
+	public TimeSince timeSinceDropPower;
+
 	[Net]
 	public static bool redWinner { get; set; } = false;
 
@@ -15,6 +16,7 @@ public partial class SFGame
 	public static bool greenWinner { get; set; } = false;
 
 	private int randomTime = 5;
+	private int randomTimePower = 20;
 
 	[Net]
 	public static int winGoal { get; } = 30;
@@ -181,7 +183,26 @@ public partial class SFGame
 			presentDrop.Position = spawnPoints[Rand.Int( 0, spawnPoints.Count - 1 )].Position;
 		}
 
-		if( gameStatus == enumStatus.Post && timeToEnd >= 10)
+		//Spawns a powerup
+		if ( gameStatus == enumStatus.Active && timeSinceDropPower >= randomTimePower )
+		{
+			timeSinceDropPower = 0;
+			randomTimePower = Rand.Int( 5, 25 );
+
+			switch ( Rand.Int( 1, 2 ) )
+			{
+				case 1:
+					var powerUpDrop = new Coffee();
+					powerUpDrop.Position = spawnPoints[Rand.Int( 0, spawnPoints.Count - 1 )].Position;
+					break;
+
+				case 2:
+					//2nd powerup?
+					break;
+			}
+		}
+
+		if ( gameStatus == enumStatus.Post && timeToEnd >= 10)
 		{
 			gameStatus = enumStatus.Start;
 
