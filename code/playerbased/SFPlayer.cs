@@ -6,17 +6,15 @@ public partial class SFPlayer : Player
 {
 	public bool lockControls = false;
 
-	[Net, Predicted]
-	public static bool toggleMusic { get; set; } = true;
-
-	[Net] public float SprintTime { get; set; }
+	[Net] 
+	public float SprintTime { get; set; }
 
 	private TimeSince timeLastSprint;
 	public TimeSince timeLastJump;
 
 	public Music musicPlayer;
 
-	ModelEntity hat;
+	private ModelEntity hat;
 
 	private TimeSince timeKilled;
 
@@ -25,6 +23,9 @@ public partial class SFPlayer : Player
 	public TimeSince lastPickup;
 	
 	public Clothing.Container Clothing = new();
+
+	public bool hasPowerUp = false;
+	public TimeSince powerUpExpire;
 
 	public SFPlayer()
 	{
@@ -161,6 +162,14 @@ public partial class SFPlayer : Player
 			if ( SprintTime < 100.0f )
 				SprintTime += 0.5f;
 
+		if ( hasPowerUp == true )
+		{
+			for ( int i = 0; i < Inventory.Count(); i++ )
+			{
+				Log.Info(Inventory.GetSlot( i ).Name);
+			}
+		}
+
 		if ( LifeState == LifeState.Dead )
 		{
 			if(SFGame.gameStatus == SFGame.enumStatus.Idle && timeKilled > 2 && IsServer ) 
@@ -200,6 +209,8 @@ public partial class SFPlayer : Player
 	{
 		timeKilled = 0;
 		base.OnKilled();
+
+		hasPowerUp = false;
 
 		BecomeRagdollOnClient( Velocity, dmgInfo.Flags, dmgInfo.Position, dmgInfo.Force, GetHitboxBone( dmgInfo.HitboxIndex ) );
 		Camera = new DeathCamera();
