@@ -240,6 +240,9 @@ public partial class SFGame
 			UpdateGameStateClient( To.Everyone, gameStatus );
 		foreach ( var oldGift in All.OfType<Present>() )
 			oldGift.Delete();
+		
+		foreach ( var oldPower in All.OfType<PowerBase>() )
+			oldPower.Delete();
 	}
 
 	public static void DeclareWinner(SFPlayer.SFTeams winningTeam)
