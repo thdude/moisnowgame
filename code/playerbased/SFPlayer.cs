@@ -156,6 +156,9 @@ public partial class SFPlayer : Player
 	public override void Simulate( Client cl )
 	{
 		//shitty sound system part 2
+		//actually no im making an even shittier solution this one does not work
+		//this is moist fellow btw our actual coder is good he just wasnt online when i needed to shove this in last minute
+		/*
 		if(hitmarksound)
 		{
 			PlaySound("hitmarker");
@@ -171,7 +174,7 @@ public partial class SFPlayer : Player
 		}
 
 		//pain end ^^^^^
-		
+		*/
 		if ( Health > 0 && Input.Down( InputButton.Run ) && (Input.Forward != 0 || Input.Left != 0 ) && IsServer )
 		{
 			timeLastSprint = 0;

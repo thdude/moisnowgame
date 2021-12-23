@@ -56,11 +56,11 @@ partial class SnowballProjctile : Prop
 				player.LastAttacker = this;
 				player.OnKilled();
 				var dese = Owner as SFPlayer;
-				dese.killmarksound = true;
+				dese.PlaySound("killmarker");
 
 			}
 			SFPlayer deez = Owner as SFPlayer;
-			deez.hitmarksound = true;
+			deez.PlaySound("hitmarker");
 			Delete();
 		}
 

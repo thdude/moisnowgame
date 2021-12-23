@@ -6,12 +6,12 @@
 		[
 			"sound/killmarker.vsnd",
 		]
-		ui = true
+		ui = false
 		volume = 1.0
 		volumerandom = 0.0
 		pitch = 1.0
 		pitchrandom = 0.0
-		distancemax = 2000.0
+		distancemax = 128.0
 		selectionmode = "3"
 	}
 }
