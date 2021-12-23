@@ -99,7 +99,7 @@
 						source_filename = "models/viewmodels/anims/deploy.dmx"
 						start_frame = -1
 						end_frame = 100
-						framerate = 80.0
+						framerate = 100.0
 						take = 0
 						reverse = false
 					},
