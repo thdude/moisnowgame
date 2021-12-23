@@ -7,6 +7,8 @@ partial class Snowball : WeaponBase
 	public override string ViewModelPath => "models/viewmodels/snowball.vmdl";
 	public override float PrimaryRate => 0.95f;
 
+	public bool empty;
+
 	public override int MaxAmmoClip => 15;
 
 	public override void Spawn()
@@ -34,9 +36,10 @@ partial class Snowball : WeaponBase
 		base.Simulate( owner );
 
 		if (AmmoClip == 0)
-			ViewModelEntity?.SetAnimBool("empty", true);
+			empty = true;
 		else
-			ViewModelEntity?.SetAnimBool("empty", false);
+			empty = false;
+		ViewModelEntity?.SetAnimBool("empty", empty);
 	}
 
 	public override void AttackPrimary()
@@ -87,8 +90,17 @@ partial class Snowball : WeaponBase
 
 	public override void SimulateAnimator( PawnAnimator anim )
 	{
-		anim.SetParam( "holdtype", 1 );
-		anim.SetParam( "aimat_weight", 1.0f );
+		if (!empty)
+		{
+			anim.SetParam( "holdtype", 1 );
+			anim.SetParam( "aimat_weight", 1.0f );
+		}
+
+		else if (empty)
+		{
+			anim.SetParam("holdtype", 0);
+			anim.SetParam( "aimat_weight", 1.0f );
+		}
 	}
 }
 
