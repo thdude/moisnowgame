@@ -79,6 +79,10 @@ partial class Snowball : WeaponBase
 				snowball.Velocity = Owner.EyeRot.Forward * 15;
 			}
 		}
+		if(IsClient)
+		{
+			PlaySound("throw");
+		}
 	}
 
 	public override void SimulateAnimator( PawnAnimator anim )

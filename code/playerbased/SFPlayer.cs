@@ -28,6 +28,12 @@ public partial class SFPlayer : Player
 
 	public TimeSince powerUpExpire;
 
+	//shitty sound system since i cant fucking code
+	[Net]
+	public bool hitmarksound  {get; set;}
+	[Net]
+	public bool killmarksound {get; set;}
+
 	public SFPlayer()
 	{
 		Inventory = new Inventory( this );
@@ -149,6 +155,23 @@ public partial class SFPlayer : Player
 
 	public override void Simulate( Client cl )
 	{
+		//shitty sound system part 2
+		if(hitmarksound)
+		{
+			PlaySound("hitmarker");
+			hitmarksound = false;	
+		}
+		if(killmarksound)
+		{
+			if(IsClient)
+			{
+				PlaySound("killmarker");
+			}
+			killmarksound = false;
+		}
+
+		//pain end ^^^^^
+		
 		if ( Health > 0 && Input.Down( InputButton.Run ) && (Input.Forward != 0 || Input.Left != 0 ) && IsServer )
 		{
 			timeLastSprint = 0;
@@ -225,5 +248,13 @@ public partial class SFPlayer : Player
 			presentDrop.Spawn();
 		}
 
+	}
+	public void hitmark(bool kill)
+	{
+		if(IsClient)
+		{
+			if(kill){Sound.FromScreen("hitmarker");}
+			if(!kill){Sound.FromScreen("killmarker");}
+		}
 	}
 }

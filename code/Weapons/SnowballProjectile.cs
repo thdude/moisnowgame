@@ -12,7 +12,6 @@ partial class SnowballProjctile : Prop
 		SetModel( "models/snowball.vmdl" );
 	}
 
-
 	[Event.Tick.Server]
 	public virtual void Tick()
 	{
@@ -56,8 +55,12 @@ partial class SnowballProjctile : Prop
 			{
 				player.LastAttacker = this;
 				player.OnKilled();
+				var dese = Owner as SFPlayer;
+				dese.killmarksound = true;
 
 			}
+			SFPlayer deez = Owner as SFPlayer;
+			deez.hitmarksound = true;
 			Delete();
 		}
 
