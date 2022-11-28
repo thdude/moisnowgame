@@ -27,7 +27,7 @@ partial class SnowballShotgun : Snowball
 			return;
 		}
 
-		(Owner as AnimEntity).SetAnimBool( "b_attack", true );
+		(Owner as AnimatedEntity).SetAnimParameter( "b_attack", true );
 		//(Owner as ExperimentPlayer).TakeAmmo( AmmoType.SDM_Snowballs, 1 );
 
 		Fire();
@@ -40,7 +40,7 @@ partial class SnowballShotgun : Snowball
 
 	public override void ShootBullet( float spread, float force, float damage, float bulletSize )
 	{
-		var forward = Owner.EyeRot.Forward;
+		var forward = Owner.EyeRotation.Forward;
 		forward += (Vector3.Random + Vector3.Random + Vector3.Random + Vector3.Random) * spread * 0.25f;
 		forward = forward.Normal;
 
@@ -49,8 +49,8 @@ partial class SnowballShotgun : Snowball
 			using ( Prediction.Off() )
 			{
 				var snowball = new SnowballProjctile();
-				snowball.Position = Owner.EyePos + (forward * 35);
-				snowball.Rotation = Owner.EyeRot;
+				snowball.Position = Owner.EyePosition + (forward * 35);
+				snowball.Rotation = Owner.EyeRotation;
 				snowball.Owner = Owner;
 				snowball.Velocity = forward * 15;
 			}
@@ -62,7 +62,7 @@ partial class SnowballShotgun : Snowball
 	{
 		Host.AssertClient();
 
-		ViewModelEntity?.SetAnimBool( "fire", true );
+		ViewModelEntity?.SetAnimParameter( "fire", true );
 	}
 }
 

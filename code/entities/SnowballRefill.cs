@@ -2,8 +2,6 @@
 using System;
 
 [Library( "ent_sf_snowpile" )]
-[Hammer.EditorModel( "models/citizen_props/crate01.vmdl_c" )]
-[Hammer.EntityTool( "Snow pile", "Snow-Fight", "A pile of snowballs" )]
 partial class SnowballRefill : Prop, IUse
 {
 	[Flags]
@@ -23,11 +21,6 @@ partial class SnowballRefill : Prop, IUse
 	{
 		base.Spawn();
 		SetModel("models/snowpile.vmdl");
-
-		GlowState = GlowStates.On;
-		GlowDistanceStart = 0;
-		GlowDistanceEnd = 500;
-		GlowColor = new Color(150, 150, 150, 1);
 
 	}
 

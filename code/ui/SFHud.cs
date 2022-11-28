@@ -10,7 +10,10 @@ public partial class SFHud : Sandbox.HudEntity<RootPanel>
 		RootPanel.AddChild<TeamSelection>();
 		RootPanel.AddChild<AmmoCounter>();
 		RootPanel.AddChild<PresentCounter>();
-		RootPanel.AddChild<KillFeed>();
+		
+		//	Need to bring over the killfeed cuz its not in base anymore :(
+		//	RootPanel.AddChild<KillFeed>();
+
 		RootPanel.AddChild<Vitals>();
 		RootPanel.AddChild<Stamina>();
 		RootPanel.AddChild<Deathscreen>();

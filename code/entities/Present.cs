@@ -16,11 +16,6 @@ partial class Present : Prop
 
 		RenderColor = Color.Random;
 
-		GlowState = GlowStates.On;
-		GlowDistanceStart = 0;
-		GlowDistanceEnd = 500;
-		GlowColor = Color.White;
-
 	}
 
 	public override void StartTouch( Entity other )

@@ -15,29 +15,37 @@ public partial class SFChatBox : Panel
 	{
 		Current = this;
 
-		StyleSheet.Load( "/ui/SFChatBox.scss" );
+		StyleSheet.Load("/ui/chat/ChatBox.scss");
 
-		Canvas = Add.Panel( "chat_canvas" );
+		Canvas = Add.Panel("chat_canvas");
 
-		Input = Add.TextEntry( "" );
-		Input.AddEventListener( "onsubmit", () => Submit() );
-		Input.AddEventListener( "onblur", () => Close() );
+		Input = Add.TextEntry("");
+		Input.AddEventListener("onsubmit", () => Submit());
+		Input.AddEventListener("onblur", () => Close());
 		Input.AcceptsFocus = true;
 		Input.AllowEmojiReplace = true;
-
-		Sandbox.Hooks.Chat.OnOpenChat += Open;
 	}
 
 	void Open()
 	{
-		AddClass( "open" );
+		AddClass("open");
 		Input.Focus();
 	}
 
 	void Close()
 	{
-		RemoveClass( "open" );
+		RemoveClass("open");
 		Input.Blur();
+	}
+
+	public override void Tick()
+	{
+		base.Tick();
+
+		if (Sandbox.Input.Pressed(InputButton.Chat))
+		{
+			Open();
+		}
 	}
 
 	void Submit()
@@ -47,66 +55,56 @@ public partial class SFChatBox : Panel
 		var msg = Input.Text.Trim();
 		Input.Text = "";
 
-		if ( string.IsNullOrWhiteSpace( msg ) )
+		if (string.IsNullOrWhiteSpace(msg))
 			return;
 
-		if ( Global.Lobby != null )
-		{
-			Log.Info( "Send Chat" );
-			Global.Lobby?.SendChat( msg );
-		}
-		else
-		{
-			Say( msg );
-		}
+		Say(msg);
 	}
 
-	public void AddEntry( string name, string message, string avatar, string lobbyState = null )
+	public void AddEntry(string name, string message, string avatar, string lobbyState = null)
 	{
-		var e = Canvas.AddChild<SFChatEntry>();
-			
+		var e = Canvas.AddChild<ChatEntry>();
+
 		e.Message.Text = message;
 		e.NameLabel.Text = name;
-		e.Avatar.SetTexture( avatar );
+		e.Avatar.SetTexture(avatar);
 
-		e.SetClass( "noname", string.IsNullOrEmpty( name ) );
-		e.SetClass( "noavatar", string.IsNullOrEmpty( avatar ) );
+		e.SetClass("noname", string.IsNullOrEmpty(name));
+		e.SetClass("noavatar", string.IsNullOrEmpty(avatar));
 
-		if ( lobbyState == "ready" || lobbyState == "staging" )
+		if (lobbyState == "ready" || lobbyState == "staging")
 		{
-			e.SetClass( "is-lobby", true );
+			e.SetClass("is-lobby", true);
 		}
 	}
 
 
-	[ClientCmd( "chat_add", CanBeCalledFromServer = true )]
-	public static void AddChatEntry( string name, string message, string avatar = null, string lobbyState = null )
+	[ConCmd.Client("chat_add", CanBeCalledFromServer = true)]
+	public static void AddChatEntry(string name, string message, string avatar = null, string lobbyState = null)
 	{
-		Current?.AddEntry( name, message, avatar, lobbyState );
+		Current?.AddEntry(name, message, avatar, lobbyState);
 
 		// Only log clientside if we're not the listen server host
-		if ( !Global.IsListenServer )
+		if (!Global.IsListenServer)
 		{
-			Log.Info( $"{name}: {message}" ); 
+			Log.Info($"{name}: {message}");
 		}
 	}
 
-	[ClientCmd( "chat_addinfo", CanBeCalledFromServer = true )]
-	public static void AddInformation( string message, string avatar = null )
+	[ConCmd.Client("chat_addinfo", CanBeCalledFromServer = true)]
+	public static void AddInformation(string message, string avatar = null)
 	{
-		Current?.AddEntry( null, message, avatar );
+		Current?.AddEntry(null, message, avatar);
 	}
 
-	[ServerCmd( "say" )]
-	public static void Say( string message )
+	[ConCmd.Server("say")]
+	public static void Say(string message)
 	{
-		Assert.NotNull( ConsoleSystem.Caller );
-
 		// todo - reject more stuff
-		if ( message.Contains( '\n' ) || message.Contains( '\r' ) )
+		if (message.Contains('\n') || message.Contains('\r'))
 			return;
 
-		Log.Info( $"{ConsoleSystem.Caller}: {message}" );
-		AddChatEntry( To.Everyone, ConsoleSystem.Caller.Name, message, $"avatar:{ConsoleSystem.Caller.PlayerId}" );
+		Log.Info($"{ConsoleSystem.Caller}: {message}");
+		AddChatEntry(To.Everyone, ConsoleSystem.Caller?.Name ?? "Server", message, $"avatar:{ConsoleSystem.Caller?.PlayerId}");
 	}
 }

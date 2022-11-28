@@ -9,22 +9,17 @@ public partial class SFGame
 	public TimeSince timeSinceDrop;
 	public TimeSince timeSinceDropPower;
 
-	[Net]
 	public static bool redWinner { get; set; } = false;
 
-	[Net]
 	public static bool greenWinner { get; set; } = false;
 
 	private int randomTime = 5;
 	private int randomTimePower = 20;
 
-	[Net]
-	public static int winGoal { get; } = 30;
+	public static int winGoal { get; set; } = 30;
 
-	[Net]
 	public static int redTotalGifts { get; set; } = 0;
 
-	[Net]
 	public static int greenTotalGifts { get; set; } = 0;
 
 	List<PresentSpawnpoint> spawnPoints = new();
@@ -84,13 +79,13 @@ public partial class SFGame
 	}
 
 	//Admin commands for starting and stopping the game
-	[ServerCmd("SF_AdminStartGame")]
+	[ConCmd.Server("SF_AdminStartGame")]
 	public static void StartGameCMD()
 	{
 		Event.Run( "SF_BeginGame" );
 	}
 
-	[ServerCmd( "SF_AdminStopGame" )]
+	[ConCmd.Server( "SF_AdminStopGame" )]
 	public static void StopGameCMD()
 	{
 		Event.Run( "SF_StopGame" );

@@ -28,10 +28,7 @@ public static class SnowSurface
 
 		if ( !string.IsNullOrWhiteSpace( decalPath ) )
 		{
-			if ( DecalDefinition.ByPath.TryGetValue( decalPath, out var decal ) )
-			{
-				decal.PlaceUsingTrace( tr );
-			}
+			//make decal
 		}
 
 		//
@@ -48,7 +45,7 @@ public static class SnowSurface
 
 		if ( !string.IsNullOrWhiteSpace( sound ) )
 		{
-			Sound.FromWorld( sound, tr.EndPos );
+			Sound.FromWorld( sound, tr.EndPosition );
 		}
 
 		//
@@ -69,7 +66,7 @@ public static class SnowSurface
 
 		if ( !string.IsNullOrWhiteSpace( particleName ) )
 		{
-			var ps = Particles.Create( particleName, tr.EndPos );
+			var ps = Particles.Create( particleName, tr.EndPosition );
 			ps.SetForward( 0, tr.Normal );
 
 			return ps;

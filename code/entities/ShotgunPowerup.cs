@@ -2,8 +2,6 @@
 using System;
 
 [Library( "ent_sf_shotgunpowerup" )]
-[Hammer.EditorModel( "models/citizen_props/crate01.vmdl_c" )]
-[Hammer.EntityTool( "Shotgun Powerup", "Snow-Fight", "A powerup that gives the players a snowball shooting shotgun." )]
 partial class ShotgunPowerup : Prop, IUse
 {
 	private TimeSince lastUse = 0;
@@ -14,11 +12,6 @@ partial class ShotgunPowerup : Prop, IUse
 	{
 		base.Spawn();
 		SetModel("models/snowpile.vmdl");
-
-		GlowState = GlowStates.On;
-		GlowDistanceStart = 0;
-		GlowDistanceEnd = 500;
-		GlowColor = new Color(150, 150, 150, 1);
 
 	}
 

@@ -2,8 +2,6 @@
 using System;
 
 [Library( "ent_sf_depositbox" )]
-[Hammer.EditorModel( "models/citizen_props/crate01.vmdl_c" )]
-[Hammer.EntityTool( "Deposit Box", "Snow-Fight", "A box to deposit presents" )]
 partial class DepositBox : Prop, IUse
 {
 	[Flags]

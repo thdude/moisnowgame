@@ -62,7 +62,7 @@ partial class WeaponBase : BaseWeapon
 	[ClientRpc]
 	public virtual void StartReloadEffects()
 	{
-		ViewModelEntity?.SetAnimBool( "reload", true );
+		ViewModelEntity?.SetAnimParameter( "reload", true );
 
 		// TODO - player third person model reload
 	}
@@ -74,7 +74,7 @@ partial class WeaponBase : BaseWeapon
 
 		ShootEffects();
 
-		foreach ( var tr in TraceBullet( Owner.EyePos, Owner.EyePos + Owner.EyeRot.Forward * 5000 ) )
+		foreach ( var tr in TraceBullet( Owner.EyePosition, Owner.EyePosition + Owner.EyeRotation.Forward * 5000 ) )
 		{
 			tr.Surface.DoBulletImpact( tr );
 
@@ -83,7 +83,7 @@ partial class WeaponBase : BaseWeapon
 
 			using ( Prediction.Off() )
 			{
-				var damage = DamageInfo.FromBullet( tr.EndPos, Owner.EyeRot.Forward * 100, 15 )
+				var damage = DamageInfo.FromBullet( tr.EndPosition, Owner.EyeRotation.Forward * 100, 15 )
 					.UsingTraceResult( tr )
 					.WithAttacker( Owner )
 					.WithWeapon( this );
@@ -102,18 +102,17 @@ partial class WeaponBase : BaseWeapon
 
 		if ( IsLocalPawn )
 		{
-			new Sandbox.ScreenShake.Perlin();
 		}
 
-		ViewModelEntity?.SetAnimBool( "fire", true );
+		ViewModelEntity?.SetAnimParameter( "fire", true );
 	}
 	public virtual void ShootBullet( float spread, float force, float damage, float bulletSize )
 	{
-		var forward = Owner.EyeRot.Forward;
+		var forward = Owner.EyeRotation.Forward;
 		forward += (Vector3.Random + Vector3.Random + Vector3.Random + Vector3.Random) * spread * 0.25f;
 		forward = forward.Normal;
 
-		foreach ( var tr in TraceBullet( Owner.EyePos, Owner.EyePos + forward * 5000, bulletSize ) )
+		foreach ( var tr in TraceBullet( Owner.EyePosition, Owner.EyePosition + forward * 5000, bulletSize ) )
 		{
 			tr.Surface.DoBulletImpact( tr );
 
@@ -122,7 +121,7 @@ partial class WeaponBase : BaseWeapon
 
 			using ( Prediction.Off() )
 			{
-				var damageInfo = DamageInfo.FromBullet( tr.EndPos, forward * 100 * force, damage )
+				var damageInfo = DamageInfo.FromBullet( tr.EndPosition, forward * 100 * force, damage )
 					.UsingTraceResult( tr )
 					.WithAttacker( Owner )
 					.WithWeapon( this );

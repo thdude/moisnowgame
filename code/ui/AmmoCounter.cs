@@ -19,7 +19,7 @@ partial class AmmoCounter : Panel
 		var player = Local.Pawn;
 		if ( player == null ) return;
 
-		var weapon = player.ActiveChild as WeaponBase;
+		var weapon = player.Children as WeaponBase;
 		SetClass( "active", weapon != null );
 		
 		if ( weapon == null ) return;

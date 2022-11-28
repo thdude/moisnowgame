@@ -24,7 +24,7 @@ public partial class SFPlayer : Player
 
 	public TimeSince lastPickup;
 	
-	public Clothing.Container Clothing = new();
+	public Clothing.Slots Clothing = new();
 
 	public TimeSince powerUpExpire;
 

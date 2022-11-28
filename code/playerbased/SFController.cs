@@ -88,16 +88,16 @@ public partial class SFController : BasePlayerController
 	{
 		base.FrameSimulate();
 
-		EyeRot = Input.Rotation;
+		EyeRotation = Input.Rotation;
 	}
 
 	public override void Simulate()
 	{
-		EyePosLocal = Vector3.Up * (EyeHeight * Pawn.Scale);
+		EyeLocalPosition = Vector3.Up * (EyeHeight * Pawn.Scale);
 		UpdateBBox();
 
-		EyePosLocal += TraceOffset;
-		EyeRot = Input.Rotation;
+		EyeLocalPosition += TraceOffset;
+		EyeRotation = Input.Rotation;
 
 		RestoreGroundPos();
 
@@ -124,7 +124,7 @@ public partial class SFController : BasePlayerController
 		// RunLadderMode
 
 		CheckLadder();
-		Swimming = Pawn.WaterLevel.Fraction > 0.6f;
+		Swimming = Pawn.WaterLevel > 0.6f;
 
 		//
 		// Start Gravity
@@ -238,13 +238,6 @@ public partial class SFController : BasePlayerController
 
 			var lineOffset = 0;
 			if ( Host.IsServer ) lineOffset = 10;
-
-			DebugOverlay.ScreenText( lineOffset + 0, $"        Position: {Position}" );
-			DebugOverlay.ScreenText( lineOffset + 1, $"        Velocity: {Velocity}" );
-			DebugOverlay.ScreenText( lineOffset + 2, $"    BaseVelocity: {BaseVelocity}" );
-			DebugOverlay.ScreenText( lineOffset + 3, $"    GroundEntity: {GroundEntity} [{GroundEntity?.Velocity}]" );
-			DebugOverlay.ScreenText( lineOffset + 4, $" SurfaceFriction: {SurfaceFriction}" );
-			DebugOverlay.ScreenText( lineOffset + 5, $"    WishVelocity: {WishVelocity}" );
 		}
 
 	}
@@ -312,7 +305,7 @@ public partial class SFController : BasePlayerController
 
 			if ( pm.Fraction == 1 )
 			{
-				Position = pm.EndPos;
+				Position = pm.EndPosition;
 				StayOnGround();
 				return;
 			}
@@ -657,7 +650,7 @@ public partial class SFController : BasePlayerController
 
 		if ( bMoveToEndPos && !pm.StartedSolid && pm.Fraction > 0.0f && pm.Fraction < 1.0f )
 		{
-			Position = pm.EndPos;
+			Position = pm.EndPosition;
 		}
 
 	}
@@ -732,7 +725,7 @@ public partial class SFController : BasePlayerController
 
 		// See how far up we can go without getting stuck
 		var trace = TraceBBox( Position, start );
-		start = trace.EndPos;
+		start = trace.EndPosition;
 
 		// Now trace down from a known safe position
 		trace = TraceBBox( start, end );
@@ -746,7 +739,7 @@ public partial class SFController : BasePlayerController
 		// float flDelta = fabs( mv->GetAbsOrigin().z - trace.m_vEndPos.z );
 		// if ( flDelta > 0.5f * DIST_EPSILON )
 
-		Position = trace.EndPos;
+		Position = trace.EndPosition;
 	}
 
 	void RestoreGroundPos()

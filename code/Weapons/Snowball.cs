@@ -39,7 +39,7 @@ partial class Snowball : WeaponBase
 			empty = true;
 		else
 			empty = false;
-		ViewModelEntity?.SetAnimBool("empty", empty);
+		ViewModelEntity?.SetAnimParameter("empty", empty);
 	}
 
 	public override void AttackPrimary()
@@ -54,7 +54,7 @@ partial class Snowball : WeaponBase
 
 		AmmoClip -= 1;
 
-		( Owner as AnimEntity).SetAnimBool( "b_attack", true );
+		( Owner as AnimatedEntity).SetAnimParameter( "b_attack", true );
 
 		Fire();
 		ThrowBall();
@@ -66,7 +66,7 @@ partial class Snowball : WeaponBase
 	{
 		Host.AssertClient();
 
-		ViewModelEntity?.SetAnimBool( "fire", true );
+		ViewModelEntity?.SetAnimParameter( "fire", true );
 	}
 
 	private void ThrowBall()
@@ -76,10 +76,10 @@ partial class Snowball : WeaponBase
 			using ( Prediction.Off() )
 			{
 				var snowball = new SnowballProjctile();
-				snowball.Position = Owner.EyePos + (Owner.EyeRot.Forward * 35);
-				snowball.Rotation = Owner.EyeRot;
+				snowball.Position = Owner.EyePosition + (Owner.EyeRotation.Forward * 35);
+				snowball.Rotation = Owner.EyeRotation;
 				snowball.Owner = Owner;
-				snowball.Velocity = Owner.EyeRot.Forward * 15;
+				snowball.Velocity = Owner.EyeRotation.Forward * 15;
 			}
 		}
 		if(IsClient)
@@ -92,14 +92,14 @@ partial class Snowball : WeaponBase
 	{
 		if (!empty)
 		{
-			anim.SetParam( "holdtype", 1 );
-			anim.SetParam( "aimat_weight", 1.0f );
+			anim.SetAnimParameter( "holdtype", 1 );
+			anim.SetAnimParameter( "aimat_weight", 1.0f );
 		}
 
 		else if (empty)
 		{
-			anim.SetParam("holdtype", 0);
-			anim.SetParam( "aimat_weight", 1.0f );
+			anim.SetAnimParameter("holdtype", 0);
+			anim.SetAnimParameter( "aimat_weight", 1.0f );
 		}
 	}
 }
