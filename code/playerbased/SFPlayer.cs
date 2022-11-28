@@ -42,7 +42,6 @@ public partial class SFPlayer : Player
 	public SFPlayer( Client cl ) : this()
 	{
 		// Load clothing from client data
-		Clothing.LoadFromClient( cl );
 	}
 
 	//First time spawn (can be after joining or restarting)
@@ -129,12 +128,12 @@ public partial class SFPlayer : Player
 
 		SetModel( "models/citizen/citizen.vmdl" );
 
-		Clothing.DressEntity( this );
+		//Clothing.DressEntity( this );
 
 		//Because the standard walk controller can't be adjusted, we'll make a new one
 		Controller = new SFController();
 		Animator = new StandardPlayerAnimator();
-		Camera = new FirstPersonCamera();
+		CameraMode = new FirstPersonCamera();
 
 		EnableAllCollisions = true;
 		EnableDrawing = true;
@@ -238,7 +237,7 @@ public partial class SFPlayer : Player
 		curPowerUp = null;
 
 		BecomeRagdollOnClient( Velocity, dmgInfo.Flags, dmgInfo.Position, dmgInfo.Force, GetHitboxBone( dmgInfo.HitboxIndex ) );
-		Camera = new DeathCamera();
+		CameraMode = new DeathCamera();
 		EnableDrawing = false;
 		EnableAllCollisions = false;
 

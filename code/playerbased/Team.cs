@@ -23,7 +23,7 @@ partial class SFPlayer
 		if ( player.curTeam == newTeam )
 		{
 			using ( Prediction.Off() )
-				SFChatBox.AddChatEntry( To.Single( this ), $"You are already on the {newTeam} team" );
+				//SFChatBox.AddChatEntry( To.Single( this ), $"You are already on the {newTeam} team" );
 
 			return;
 		}
@@ -33,7 +33,7 @@ partial class SFPlayer
 			|| (newTeam == SFTeams.Green && GetGreenMembers().Count > GetRedMembers().Count) )
 		{
 			using ( Prediction.Off() )
-				SFChatBox.AddChatEntry( To.Single( this ), $"You can't pick the {newTeam} team at this time, select a different one" );
+				//SFChatBox.AddChatEntry( To.Single( this ), $"You can't pick the {newTeam} team at this time, select a different one" );
 
 			return;
 		}
@@ -41,7 +41,7 @@ partial class SFPlayer
 		if ( timeSinceSwitchTeam < 30.0f )
 		{
 			using ( Prediction.Off() )
-				SFChatBox.AddChatEntry( To.Single(this), $"Wait {MathF.Round(30.0f - timeSinceSwitchTeam, 1)}s before switching" );
+				//SFChatBox.AddChatEntry( To.Single(this), $"Wait {MathF.Round(30.0f - timeSinceSwitchTeam, 1)}s before switching" );
 			
 			return;
 		}

@@ -93,7 +93,7 @@ public class SFNameTags : Panel
 		//
 		// Where we putting the label, in world coords
 		//
-		var head = player.GetAttachment( "hat" ) ?? new Transform( player.EyePos );
+		var head = player.GetAttachment( "hat" ) ?? new Transform( player.EyePosition );
 
 		var labelPos = head.Position + head.Rotation.Up * 5;
 
